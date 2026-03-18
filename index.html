@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>品牌到貨追蹤系統</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg2: #f7f7f5;
+      --bg3: #f0efeb;
+      --text: #1a1a18;
+      --text2: #6b6b67;
+      --text3: #9a9a96;
+      --border: rgba(0,0,0,0.1);
+      --border2: rgba(0,0,0,0.18);
+      --info-bg: #e6f1fb;
+      --info: #185fa5;
+      --success-bg: #eaf3de;
+      --success: #3b6d11;
+      --danger-bg: #fcebeb;
+      --danger: #a32d2d;
+      --warn-bg: #faeeda;
+      --warn: #854f0b;
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1c1c1a;
+        --bg2: #242422;
+        --bg3: #2c2c2a;
+        --text: #e8e8e2;
+        --text2: #9a9a94;
+        --text3: #6a6a64;
+        --border: rgba(255,255,255,0.1);
+        --border2: rgba(255,255,255,0.18);
+        --info-bg: #0c2e4e;
+        --info: #85b7eb;
+        --success-bg: #162a08;
+        --success: #97c459;
+        --danger-bg: #2e0f0f;
+        --danger: #f09595;
+        --warn-bg: #2e1e08;
+        --warn: #ef9f27;
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg3);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      border: 0.5px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      padding: 1.5rem 2rem 1.25rem;
+      border-bottom: 0.5px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .header-brand { display: flex; align-items: center; gap: 12px; }
+    .header-icon {
+      width: 36px; height: 36px; border-radius: var(--radius);
+      background: var(--bg2); border: 0.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+    }
+    .header-left h1 { font-size: 17px; font-weight: 500; color: var(--text); }
+    .header-left p { font-size: 12px; color: var(--text2); margin-top: 2px; }
+    .header-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+    /* Stats */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .stat-card {
+      padding: 1.1rem 1.5rem;
+      border-right: 0.5px solid var(--border);
+    }
+    .stat-card:last-child { border-right: none; }
+    .stat-card .label { font-size: 11px; color: var(--text2); margin-bottom: 5px; letter-spacing: 0.02em; text-transform: uppercase; }
+    .stat-card .value { font-size: 26px; font-weight: 500; color: var(--text); }
+    .stat-card.transit .value { color: var(--info); }
+    .stat-card.customs .value { color: var(--warn); }
+    .stat-card.arrived .value { color: var(--success); }
+
+    /* Toolbar */
+    .toolbar {
+      padding: 1rem 2rem;
+      display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .search-wrap { position: relative; flex: 1; min-width: 200px; }
+    .search-wrap input {
+      width: 100%; padding: 8px 12px 8px 34px;
+      border: 0.5px solid var(--border2);
+      border-radius: var(--radius);
+      font-size: 13px; color: var(--text);
+      background: var(--bg);
+    }
+    .search-wrap input:focus { outline: none; border-color: var(--info); box-shadow: 0 0 0 3px rgba(24,95,165,0.12); }
+    .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); font-size: 14px; pointer-events: none; color: var(--text3); }
+
+    .filter-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 7px 13px; border-radius: var(--radius);
+      border: 0.5px solid var(--border2);
+      background: var(--bg); font-size: 12px; cursor: pointer;
+      color: var(--text2); transition: all 0.15s; font-family: inherit;
+    }
+    .filter-btn:hover { background: var(--bg2); }
+    .filter-btn.active { background: var(--info-bg); border-color: var(--info); color: var(--info); }
+
+    /* Buttons */
+    .btn {
+      padding: 8px 15px; border-radius: var(--radius);
+      border: 0.5px solid var(--border2);
+      background: var(--bg); font-size: 13px; cursor: pointer;
+      color: var(--text); font-weight: 500; white-space: nowrap;
+      transition: background 0.15s; font-family: inherit;
+    }
+    .btn:hover { background: var(--bg2); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary {
+      background: var(--text); color: var(--bg);
+      border-color: var(--text);
+    }
+    .btn-primary:hover { opacity: 0.82; background: var(--text); }
+
+    /* Table */
+    .table-wrap { padding: 0 0 1.5rem; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead tr { border-bottom: 0.5px solid var(--border2); }
+    thead th {
+      text-align: left; padding: 10px 1.5rem;
+      font-size: 11px; font-weight: 500;
+      color: var(--text2); white-space: nowrap; letter-spacing: 0.02em;
+    }
+    tbody tr { border-bottom: 0.5px solid var(--border); transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--bg2); }
+    tbody td { padding: 11px 1.5rem; color: var(--text); vertical-align: middle; }
+    .brand-name { font-weight: 500; font-size: 14px; }
+
+    .badge {
+      display: inline-block; padding: 3px 10px;
+      border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap;
+    }
+    .badge-transit { background: var(--info-bg); color: var(--info); }
+    .badge-customs { background: var(--warn-bg); color: var(--warn); }
+    .badge-arrived { background: var(--success-bg); color: var(--success); }
+    .badge-pending { background: var(--bg2); color: var(--text2); }
+
+    .date-cell { color: var(--text2); font-size: 12px; font-variant-numeric: tabular-nums; }
+    .date-cell.overdue { color: var(--danger); font-weight: 500; }
+    .note-cell { color: var(--text2); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+
+    .empty-state { text-align: center; padding: 4rem 1rem; color: var(--text2); font-size: 14px; }
+    .loading-state { text-align: center; padding: 3rem 1rem; color: var(--text2); font-size: 13px; }
+
+    /* Sync status */
+    .sync-status { font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 5px; }
+    .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); display: inline-block; flex-shrink: 0; }
+    .sync-dot.syncing { background: var(--warn); animation: pulse 1s infinite; }
+    .sync-dot.error { background: var(--danger); }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100; padding: 1rem;
+    }
+    .modal-overlay.hidden { display: none; }
+    .modal {
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      border: 0.5px solid var(--border2);
+      width: 100%; max-width: 500px; padding: 2rem;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    }
+    .modal h2 { font-size: 16px; font-weight: 500; margin-bottom: 1.5rem; }
+    .form-row { margin-bottom: 16px; }
+    .form-row label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 6px; font-weight: 500; letter-spacing: 0.01em; }
+    .form-row input, .form-row select, .form-row textarea {
+      width: 100%; padding: 9px 12px;
+      border: 0.5px solid var(--border2);
+      border-radius: var(--radius);
+      font-size: 13px; color: var(--text);
+      background: var(--bg); font-family: inherit;
+    }
+    .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+      outline: none; border-color: var(--info);
+      box-shadow: 0 0 0 3px rgba(24,95,165,0.12);
+    }
+    .form-row textarea { resize: vertical; min-height: 80px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .modal-footer { display: flex; gap: 10px; margin-top: 1.5rem; justify-content: flex-end; }
+    .btn-cancel {
+      padding: 9px 18px; border-radius: var(--radius);
+      border: 0.5px solid var(--border2);
+      background: transparent; font-size: 13px; cursor: pointer;
+      color: var(--text2); font-family: inherit;
+    }
+    .btn-cancel:hover { background: var(--bg2); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      background: var(--text); color: var(--bg);
+      padding: 11px 22px; border-radius: var(--radius);
+      font-size: 13px; z-index: 200; opacity: 0;
+      transition: opacity 0.3s; pointer-events: none; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; }
+
+    /* Footer */
+    .page-footer {
+      padding: 1rem 2rem;
+      border-top: 0.5px solid var(--border);
+      font-size: 11px; color: var(--text3);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 0; }
+      .page-wrap { border-radius: 0; border: none; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .stat-card { border-bottom: 0.5px solid var(--border); }
+      .form-grid { grid-template-columns: 1fr; }
+      .header { padding: 1.25rem; }
+      .toolbar { padding: 0.75rem 1.25rem; }
+      thead th, tbody td { padding-left: 1.25rem; padding-right: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-brand">
+        <div class="header-icon">📦</div>
+        <div class="header-left">
+          <h1>品牌到貨追蹤系統</h1>
+          <p>Brand Arrival Tracker &nbsp;·&nbsp; 資料同步自 Google Sheets</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="sync-status">
+          <span class="sync-dot syncing" id="sync-dot"></span>
+          <span id="sync-text">載入中…</span>
+        </div>
+        <button class="btn" onclick="loadData()" id="btn-refresh">↻ 重新整理</button>
+        <button class="btn btn-primary" onclick="openModal()">＋ 新增品牌</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card"><div class="label">全部品牌</div><div class="value" id="stat-all">—</div></div>
+      <div class="stat-card transit"><div class="label">飛行中</div><div class="value" id="stat-transit">—</div></div>
+      <div class="stat-card customs"><div class="label">清關中</div><div class="value" id="stat-customs">—</div></div>
+      <div class="stat-card arrived"><div class="label">已到貨</div><div class="value" id="stat-arrived">—</div></div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="search-input" placeholder="搜尋品牌名稱…" oninput="renderTable()">
+      </div>
+      <div class="filter-btns">
+        <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">全部</button>
+        <button class="filter-btn" data-filter="transit" onclick="setFilter('transit')">✈ 飛行中</button>
+        <button class="filter-btn" data-filter="customs" onclick="setFilter('customs')">⏳ 清關中</button>
+        <button class="filter-btn" data-filter="arrived" onclick="setFilter('arrived')">✓ 已到貨</button>
+        <button class="filter-btn" data-filter="pending" onclick="setFilter('pending')">— 待出貨</button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <div class="loading-state" id="loading-state">⏳ 正在從 Google Sheets 載入資料…</div>
+      <table id="main-table" style="display:none">
+        <thead>
+          <tr>
+            <th>品牌名稱</th>
+            <th>出貨狀態</th>
+            <th>預計到貨</th>
+            <th>實際到貨</th>
+            <th>備註</th>
+            <th>輸入時間</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+      <div class="empty-state hidden" id="empty-state">
+        目前尚無資料，請點擊右上角「＋ 新增品牌」開始輸入。
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <span>品牌到貨追蹤系統 &nbsp;·&nbsp; 國際部專用</span>
+      <span id="last-updated">—</span>
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay hidden" id="modal-overlay" onclick="closeOnOverlay(event)">
+    <div class="modal">
+      <h2>新增品牌到貨資料</h2>
+      <div class="form-row">
+        <label>品牌名稱 *</label>
+        <input type="text" id="f-brand" placeholder="例：Nike、ZARA、Uniqlo" autocomplete="off">
+      </div>
+      <div class="form-row">
+        <label>出貨狀態</label>
+        <select id="f-status">
+          <option value="待出貨">— 待出貨</option>
+          <option value="飛行中" selected>✈ 飛行中</option>
+          <option value="清關中">⏳ 清關中</option>
+          <option value="已到貨">✓ 已到貨</option>
+        </select>
+      </div>
+      <div class="form-grid">
+        <div class="form-row">
+          <label>預計到貨日期</label>
+          <input type="date" id="f-eta">
+        </div>
+        <div class="form-row">
+          <label>實際到貨日期</label>
+          <input type="date" id="f-actual">
+        </div>
+      </div>
+      <div class="form-row">
+        <label>備註 / 說明</label>
+        <textarea id="f-note" placeholder="航班號、聯絡人、特殊注意事項…"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">取消</button>
+        <button class="btn btn-primary" id="btn-save" onclick="saveRecord()">儲存並同步 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API = 'https://script.google.com/macros/s/AKfycbwwa2ppeiw79NbJs2k71fCh4QeowJXKmsOrhRc87RR661chz-bhDz0eni0_m5UDeiFn/exec';
+    let data = [];
+    let currentFilter = 'all';
+
+    const statusKey = { '飛行中': 'transit', '清關中': 'customs', '已到貨': 'arrived', '待出貨': 'pending' };
+    const badgeClass = { transit: 'badge-transit', customs: 'badge-customs', arrived: 'badge-arrived', pending: 'badge-pending' };
+    const filterToStatus = { transit: '飛行中', customs: '清關中', arrived: '已到貨', pending: '待出貨' };
+
+    function setSyncState(state, msg) {
+      const dot = document.getElementById('sync-dot');
+      const txt = document.getElementById('sync-text');
+      dot.className = 'sync-dot' + (state === 'syncing' ? ' syncing' : state === 'error' ? ' error' : '');
+      txt.textContent = msg;
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    async function loadData() {
+      setSyncState('syncing', '同步中…');
+      document.getElementById('btn-refresh').disabled = true;
+      document.getElementById('loading-state').style.display = 'block';
+      document.getElementById('main-table').style.display = 'none';
+      document.getElementById('empty-state').classList.add('hidden');
+
+      try {
+        const res = await fetch(API + '?t=' + Date.now());
+        const rows = await res.json();
+        data = (rows.slice(1) || []).filter(r => r[1]).map(r => ({
+          timestamp: r[0] || '',
+          brand: r[1] || '',
+          status: r[2] || '待出貨',
+          eta: r[3] || '',
+          actual: r[4] || '',
+          note: r[5] || '',
+        }));
+        const now = new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
+        setSyncState('ok', '已同步 ' + now);
+        document.getElementById('last-updated').textContent = '最後更新：' + new Date().toLocaleString('zh-TW');
+        render();
+      } catch (e) {
+        setSyncState('error', '連線失敗');
+        document.getElementById('loading-state').textContent = '⚠ 載入失敗，請按「重新整理」再試。';
+        showToast('⚠ 無法連線至 Google Sheets');
+      }
+      document.getElementById('btn-refresh').disabled = false;
+    }
+
+    function renderStats() {
+      document.getElementById('stat-all').textContent = data.length;
+      document.getElementById('stat-transit').textContent = data.filter(d => d.status === '飛行中').length;
+      document.getElementById('stat-customs').textContent = data.filter(d => d.status === '清關中').length;
+      document.getElementById('stat-arrived').textContent = data.filter(d => d.status === '已到貨').length;
+    }
+
+    function renderTable() {
+      const q = document.getElementById('search-input').value.toLowerCase();
+      let rows = data.filter(d => {
+        const matchFilter = currentFilter === 'all' || d.status === (filterToStatus[currentFilter] || '');
+        const matchSearch = !q || d.brand.toLowerCase().includes(q);
+        return matchFilter && matchSearch;
+      });
+
+      const today = new Date().toISOString().slice(0, 10);
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = rows.map(d => {
+        const sc = statusKey[d.status] || 'pending';
+        const overdue = d.eta && d.eta < today && d.status !== '已到貨';
+        return `<tr>
+          <td class="brand-name">${esc(d.brand)}</td>
+          <td><span class="badge ${badgeClass[sc]}">${esc(d.status)}</span></td>
+          <td class="date-cell${overdue ? ' overdue' : ''}">${d.eta || '—'}${overdue ? ' ⚠' : ''}</td>
+          <td class="date-cell">${d.actual || '—'}</td>
+          <td class="note-cell" title="${esc(d.note)}">${d.note ? esc(d.note) : '<span style="opacity:0.4">無</span>'}</td>
+          <td class="date-cell">${d.timestamp ? String(d.timestamp).slice(0, 16) : '—'}</td>
+        </tr>`;
+      }).join('');
+
+      document.getElementById('loading-state').style.display = 'none';
+      if (rows.length === 0) {
+        document.getElementById('main-table').style.display = 'none';
+        document.getElementById('empty-state').classList.remove('hidden');
+      } else {
+        document.getElementById('main-table').style.display = 'table';
+        document.getElementById('empty-state').classList.add('hidden');
+      }
+    }
+
+    function render() { renderStats(); renderTable(); }
+
+    function setFilter(f) {
+      currentFilter = f;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+      renderTable();
+    }
+
+    function openModal() {
+      document.getElementById('f-brand').value = '';
+      document.getElementById('f-status').value = '飛行中';
+      document.getElementById('f-eta').value = '';
+      document.getElementById('f-actual').value = '';
+      document.getElementById('f-note').value = '';
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      setTimeout(() => document.getElementById('f-brand').focus(), 50);
+    }
+
+    function closeModal() { document.getElementById('modal-overlay').classList.add('hidden'); }
+    function closeOnOverlay(e) { if (e.target === document.getElementById('modal-overlay')) closeModal(); }
+
+    async function saveRecord() {
+      const brand = document.getElementById('f-brand').value.trim();
+      if (!brand) { showToast('⚠ 請輸入品牌名稱'); return; }
+
+      const btn = document.getElementById('btn-save');
+      btn.disabled = true; btn.textContent = '儲存中…';
+
+      const payload = {
+        action: 'add',
+        brand,
+        status: document.getElementById('f-status').value,
+        eta: document.getElementById('f-eta').value,
+        actual: document.getElementById('f-actual').value,
+        note: document.getElementById('f-note').value.trim(),
+      };
+
+      try {
+        await fetch(API, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        closeModal();
+        showToast('✓ 已儲存至 Google Sheets');
+        setTimeout(() => loadData(), 1800);
+      } catch (e) {
+        showToast('⚠ 儲存失敗，請再試一次');
+      }
+
+      btn.disabled = false; btn.textContent = '儲存並同步 →';
+    }
+
+    // Keyboard shortcut: Escape closes modal
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    function esc(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
