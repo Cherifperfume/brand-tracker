@@ -28,9 +28,8 @@
       }
     }
     body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif; background:var(--bg3); color:var(--text); min-height:100vh; padding:1.5rem; }
-    .page-wrap { max-width:1100px; margin:0 auto; background:var(--bg); border-radius:var(--radius-lg); border:0.5px solid var(--border); overflow:hidden; }
+    .page-wrap { max-width:1140px; margin:0 auto; background:var(--bg); border-radius:var(--radius-lg); border:0.5px solid var(--border); overflow:hidden; }
 
-    /* Header */
     .header { padding:1.5rem 2rem 1.25rem; border-bottom:0.5px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
     .header-brand { display:flex; align-items:center; gap:12px; }
     .header-icon { width:36px; height:36px; border-radius:var(--radius); background:var(--bg2); border:0.5px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:18px; }
@@ -38,7 +37,6 @@
     .header-left p { font-size:12px; color:var(--text2); margin-top:2px; }
     .header-right { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
 
-    /* Stats */
     .stats-row { display:grid; grid-template-columns:repeat(5,1fr); border-bottom:0.5px solid var(--border); }
     .stat-card { padding:1rem 1.25rem; border-right:0.5px solid var(--border); cursor:pointer; transition:background 0.15s; }
     .stat-card:last-child { border-right:none; }
@@ -50,7 +48,6 @@
     .stat-card.arrived .value { color:var(--success); }
     .stat-card.overdue-card .value { color:var(--danger); }
 
-    /* Toolbar */
     .toolbar { padding:1rem 2rem; display:flex; gap:10px; align-items:center; flex-wrap:wrap; border-bottom:0.5px solid var(--border); }
     .search-wrap { position:relative; flex:1; min-width:200px; }
     .search-wrap input { width:100%; padding:8px 12px 8px 34px; border:0.5px solid var(--border2); border-radius:var(--radius); font-size:13px; color:var(--text); background:var(--bg); }
@@ -62,37 +59,30 @@
     .filter-btn.active { background:var(--info-bg); border-color:var(--info); color:var(--info); }
     .filter-btn.overdue-btn.active { background:var(--danger-bg); border-color:var(--danger); color:var(--danger); }
 
-    /* Buttons */
     .btn { padding:8px 15px; border-radius:var(--radius); border:0.5px solid var(--border2); background:var(--bg); font-size:13px; cursor:pointer; color:var(--text); font-weight:500; white-space:nowrap; font-family:inherit; transition:background 0.15s; }
     .btn:hover { background:var(--bg2); }
     .btn:disabled { opacity:0.5; cursor:not-allowed; }
     .btn-primary { background:var(--text); color:var(--bg); border-color:var(--text); }
     .btn-primary:hover { opacity:0.82; background:var(--text); }
     .btn-sm { padding:5px 10px; font-size:12px; }
-    .btn-danger { border-color:var(--danger); color:var(--danger); }
-    .btn-danger:hover { background:var(--danger-bg); }
 
-    /* Table */
     .table-wrap { overflow-x:auto; padding-bottom:1.5rem; }
     table { width:100%; border-collapse:collapse; font-size:13px; }
     thead tr { border-bottom:0.5px solid var(--border2); }
-    thead th { text-align:left; padding:10px 1.25rem; font-size:11px; font-weight:500; color:var(--text2); white-space:nowrap; letter-spacing:0.02em; }
+    thead th { text-align:left; padding:10px 1rem; font-size:11px; font-weight:500; color:var(--text2); white-space:nowrap; letter-spacing:0.02em; }
 
-    /* Brand group rows */
     .brand-group-row { background:var(--bg2); cursor:pointer; border-bottom:0.5px solid var(--border2); }
     .brand-group-row:hover { background:var(--bg3); }
-    .brand-group-row td { padding:10px 1.25rem; font-weight:500; font-size:13px; }
+    .brand-group-row td { padding:10px 1rem; font-weight:500; font-size:13px; }
     .expand-icon { display:inline-block; width:16px; margin-right:6px; font-size:11px; color:var(--text3); transition:transform 0.2s; }
     .expand-icon.open { transform:rotate(90deg); }
-    .brand-badge-row { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
     .batch-count { font-size:11px; color:var(--text2); font-weight:400; margin-left:4px; }
 
-    /* Batch rows */
     .batch-row { border-bottom:0.5px solid var(--border); transition:background 0.1s; }
     .batch-row:hover { background:var(--bg2); }
     .batch-row.overdue-row { background:rgba(163,45,45,0.04); }
-    .batch-row td { padding:10px 1.25rem; vertical-align:middle; }
-    .batch-row td:first-child { padding-left:2.75rem; }
+    .batch-row td { padding:10px 1rem; vertical-align:middle; }
+    .batch-row td:first-child { padding-left:2.5rem; }
     .batch-name { font-weight:500; font-size:13px; color:var(--info); cursor:pointer; border:none; background:none; font-family:inherit; padding:0; }
     .batch-name:hover { text-decoration:underline; }
     .row-actions { display:flex; gap:4px; opacity:0; transition:opacity 0.1s; }
@@ -106,10 +96,12 @@
     .badge-customs { background:var(--warn-bg); color:var(--warn); }
     .badge-arrived { background:var(--success-bg); color:var(--success); }
     .badge-pending { background:var(--bg2); color:var(--text2); }
+    .badge-air { background:#f0e6fb; color:#6b21a8; }
+    .badge-sea { background:#e0f2fe; color:#0369a1; }
 
     .date-cell { color:var(--text2); font-size:12px; }
     .date-cell.overdue { color:var(--danger); font-weight:500; }
-    .note-cell { color:var(--text2); max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; }
+    .note-cell { color:var(--text2); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; }
     .items-pill { background:var(--bg2); border:0.5px solid var(--border); padding:2px 8px; border-radius:20px; font-size:12px; color:var(--text2); white-space:nowrap; }
 
     .loading-state { text-align:center; padding:3rem 1rem; color:var(--text2); font-size:13px; }
@@ -123,11 +115,10 @@
 
     .page-footer { padding:1rem 2rem; border-top:0.5px solid var(--border); font-size:11px; color:var(--text3); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 
-    /* Modals */
     .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; z-index:100; padding:1rem; }
     .modal-overlay.hidden { display:none; }
     .modal { background:var(--bg); border-radius:var(--radius-lg); border:0.5px solid var(--border2); width:100%; padding:2rem; box-shadow:0 8px 40px rgba(0,0,0,0.18); max-height:90vh; overflow-y:auto; }
-    .modal-sm { max-width:500px; }
+    .modal-sm { max-width:520px; }
     .modal-lg { max-width:640px; }
     .modal-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1.5rem; gap:12px; }
     .modal-header h2 { font-size:16px; font-weight:500; }
@@ -140,13 +131,13 @@
     .form-row input,.form-row select,.form-row textarea { width:100%; padding:9px 12px; border:0.5px solid var(--border2); border-radius:var(--radius); font-size:13px; color:var(--text); background:var(--bg); font-family:inherit; }
     .form-row input:focus,.form-row select:focus,.form-row textarea:focus { outline:none; border-color:var(--info); box-shadow:0 0 0 3px rgba(24,95,165,0.1); }
     .form-row textarea { resize:vertical; min-height:72px; }
-    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .form-grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
     .modal-footer { display:flex; gap:10px; margin-top:1.5rem; justify-content:flex-end; }
     .btn-cancel { padding:9px 18px; border-radius:var(--radius); border:0.5px solid var(--border2); background:transparent; font-size:13px; cursor:pointer; color:var(--text2); font-family:inherit; }
     .btn-cancel:hover { background:var(--bg2); }
 
-    /* Detail modal */
-    .detail-meta { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:1.25rem; }
+    .detail-meta { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:1.25rem; }
     .meta-card { background:var(--bg2); border-radius:var(--radius); padding:10px 12px; }
     .meta-card .mlabel { font-size:11px; color:var(--text2); margin-bottom:3px; }
     .meta-card .mvalue { font-size:13px; font-weight:500; }
@@ -180,10 +171,11 @@
       .page-wrap { border-radius:0; border:none; }
       .stats-row { grid-template-columns:repeat(3,1fr); }
       .stat-card { border-bottom:0.5px solid var(--border); }
-      .form-grid,.detail-meta { grid-template-columns:1fr 1fr; }
+      .form-grid-2,.form-grid-3 { grid-template-columns:1fr 1fr; }
+      .detail-meta { grid-template-columns:1fr 1fr; }
       .header,.toolbar { padding:1.25rem; }
-      thead th,.batch-row td,.brand-group-row td { padding-left:1rem; padding-right:1rem; }
-      .batch-row td:first-child { padding-left:2rem; }
+      thead th,.batch-row td,.brand-group-row td { padding-left:0.75rem; padding-right:0.75rem; }
+      .batch-row td:first-child { padding-left:1.75rem; }
     }
   </style>
 </head>
@@ -246,13 +238,14 @@
     <table id="main-table" style="display:none">
       <thead>
         <tr>
-          <th style="width:22%">品牌 / 批次</th>
-          <th style="width:12%">狀態</th>
-          <th style="width:12%">預計到貨</th>
-          <th style="width:12%">實際到貨</th>
-          <th style="width:10%">品項</th>
-          <th style="width:18%">備註</th>
-          <th style="width:14%"></th>
+          <th style="width:20%">品牌 / 批次</th>
+          <th style="width:11%">出貨狀態</th>
+          <th style="width:10%">運輸方式</th>
+          <th style="width:11%">預計到貨</th>
+          <th style="width:11%">實際到貨</th>
+          <th style="width:9%">品項</th>
+          <th style="width:16%">備註</th>
+          <th style="width:12%"></th>
         </tr>
       </thead>
       <tbody id="table-body"></tbody>
@@ -278,7 +271,7 @@
     </div>
     <input type="hidden" id="f-orig-brand">
     <input type="hidden" id="f-orig-batch">
-    <div class="form-grid">
+    <div class="form-grid-2">
       <div class="form-row">
         <label>品牌名稱 *</label>
         <input type="text" id="f-brand" placeholder="例：Nike" autocomplete="off">
@@ -288,22 +281,32 @@
         <input type="text" id="f-batch" placeholder="例：春季批">
       </div>
     </div>
-    <div class="form-row">
-      <label>出貨狀態</label>
-      <select id="f-status">
-        <option value="待出貨">— 待出貨</option>
-        <option value="飛行中" selected>✈ 飛行中</option>
-        <option value="清關中">⏳ 清關中</option>
-        <option value="已到貨">✓ 已到貨</option>
-      </select>
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label>出貨狀態</label>
+        <select id="f-status">
+          <option value="待出貨">— 待出貨</option>
+          <option value="飛行中" selected>✈ 飛行中</option>
+          <option value="清關中">⏳ 清關中</option>
+          <option value="已到貨">✓ 已到貨</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>運輸方式</label>
+        <select id="f-shiptype">
+          <option value="">— 未指定</option>
+          <option value="空運">✈ 空運</option>
+          <option value="海運">🚢 海運</option>
+        </select>
+      </div>
     </div>
-    <div class="form-grid">
+    <div class="form-grid-2">
       <div class="form-row"><label>預計到貨日期</label><input type="date" id="f-eta"></div>
       <div class="form-row"><label>實際到貨日期</label><input type="date" id="f-actual"></div>
     </div>
     <div class="form-row">
       <label>備註 / 說明</label>
-      <textarea id="f-note" placeholder="航班號、聯絡人、特殊注意事項…"></textarea>
+      <textarea id="f-note" placeholder="航班號、船名、聯絡人、特殊注意事項…"></textarea>
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal('batch-modal')">取消</button>
@@ -363,6 +366,8 @@ const today = new Date().toISOString().slice(0,10);
 const statusKey = {'飛行中':'transit','清關中':'customs','已到貨':'arrived','待出貨':'pending'};
 const badgeClass = {transit:'badge-transit',customs:'badge-customs',arrived:'badge-arrived',pending:'badge-pending'};
 const filterToStatus = {transit:'飛行中',customs:'清關中',arrived:'已到貨',pending:'待出貨'};
+const shipBadge = {'空運':'badge-air','海運':'badge-sea'};
+const shipIcon = {'空運':'✈ 空運','海運':'🚢 海運'};
 const isOverdue = b => b.eta && b.eta < today && b.status !== '已到貨';
 
 function setSyncState(s,m){
@@ -389,10 +394,12 @@ async function loadAll(){
     const bRows=await bRes.json(), iRows=await iRes.json();
     batches=(bRows.slice(1)||[]).filter(r=>r[0]).map(r=>({
       brand:r[0]||'', batchName:r[1]||'', status:r[2]||'待出貨',
-      eta:r[3]||'', actual:r[4]||'', note:r[5]||'', timestamp:r[6]||''
+      shipType:r[3]||'', eta:r[4]||'', actual:r[5]||'',
+      note:r[6]||'', timestamp:r[7]||''
     }));
     items=(iRows.slice(1)||[]).filter(r=>r[0]).map(r=>({
-      brand:r[0]||'', batchName:r[1]||'', itemName:r[2]||'', qty:r[3]||'', timestamp:r[4]||''
+      brand:r[0]||'', batchName:r[1]||'', itemName:r[2]||'',
+      qty:r[3]||'', timestamp:r[4]||''
     }));
     const now=new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
     setSyncState('ok','已同步 '+now);
@@ -426,15 +433,11 @@ function renderStats(){
 
 function renderTable(){
   const filtered=getFilteredBatches();
-  // group by brand
   const brandMap=new Map();
   filtered.forEach(b=>{
     if(!brandMap.has(b.brand)) brandMap.set(b.brand,[]);
     brandMap.get(b.brand).push(b);
   });
-
-  const tbody=document.getElementById('table-body');
-  let html='';
 
   if(brandMap.size===0){
     document.getElementById('loading-state').style.display='none';
@@ -444,19 +447,18 @@ function renderTable(){
     return;
   }
 
-  // auto-expand if filter active or searching
   const q=document.getElementById('search-input').value;
-  const forceExpand = currentFilter!=='all' || q.length>0;
+  const forceExpand=currentFilter!=='all'||q.length>0;
+  let html='';
 
   brandMap.forEach((bList,brand)=>{
     const isOpen=forceExpand||expandedBrands.has(brand);
-    // Status summary badges for this brand
     const statusCounts={};
     bList.forEach(b=>{ statusCounts[b.status]=(statusCounts[b.status]||0)+1; });
     const badgePills=Object.entries(statusCounts).map(([s,n])=>`<span class="badge ${badgeClass[statusKey[s]||'pending']}" style="font-size:10px;padding:2px 7px">${s} ${n}</span>`).join('');
 
     html+=`<tr class="brand-group-row" onclick="toggleBrand('${esc(brand)}')">
-      <td colspan="7">
+      <td colspan="8">
         <span class="expand-icon${isOpen?' open':''}">▶</span>
         <strong>${esc(brand)}</strong>
         <span class="batch-count">${bList.length} 批次</span>
@@ -466,12 +468,13 @@ function renderTable(){
 
     if(isOpen){
       bList.forEach(b=>{
-        const sc=statusKey[b.status]||'pending';
-        const overdue=isOverdue(b);
+        const sc=statusKey[b.status]||'pending', overdue=isOverdue(b);
         const cnt=items.filter(i=>i.brand===b.brand&&i.batchName===b.batchName).length;
+        const shipHtml=b.shipType?`<span class="badge ${shipBadge[b.shipType]||''}" style="font-size:10px;padding:2px 8px">${shipIcon[b.shipType]||b.shipType}</span>`:'<span style="color:var(--text3);font-size:12px">—</span>';
         html+=`<tr class="batch-row${overdue?' overdue-row':''}">
           <td><button class="batch-name" onclick="openDetail('${esc(b.brand)}','${esc(b.batchName)}')">${esc(b.batchName)||'（未命名）'}</button></td>
           <td><span class="badge ${badgeClass[sc]}">${esc(b.status)}</span></td>
+          <td>${shipHtml}</td>
           <td class="date-cell${overdue?' overdue':''}">${b.eta||'—'}${overdue?' ⚠':''}</td>
           <td class="date-cell">${b.actual||'—'}</td>
           <td><span class="items-pill">${cnt} 項</span></td>
@@ -479,7 +482,7 @@ function renderTable(){
           <td>
             <div class="row-actions">
               <button class="icon-btn" onclick="openEditBatchFor('${esc(b.brand)}','${esc(b.batchName)}')" title="編輯">✎</button>
-              <button class="icon-btn del" onclick="deleteBatch('${esc(b.brand)}','${esc(b.batchName)}')" title="刪除此批次">✕</button>
+              <button class="icon-btn del" onclick="deleteBatch('${esc(b.brand)}','${esc(b.batchName)}')" title="刪除">✕</button>
             </div>
           </td>
         </tr>`;
@@ -487,7 +490,7 @@ function renderTable(){
     }
   });
 
-  tbody.innerHTML=html;
+  document.getElementById('table-body').innerHTML=html;
   document.getElementById('loading-state').style.display='none';
   document.getElementById('main-table').style.display='table';
   document.getElementById('empty-state').classList.add('hidden');
@@ -507,29 +510,28 @@ function setFilter(f){
   renderStats(); renderTable();
 }
 
-// ── Batch Modal ──
 function openBatchModal(brand,batchName){
   const isEdit=!!(brand&&batchName);
   document.getElementById('batch-modal-title').textContent=isEdit?'編輯到貨批次':'新增到貨批次';
   document.getElementById('batch-modal-sub').textContent=isEdit?'修改後儲存將更新 Google Sheets 對應列':'同一品牌可新增多次，每次為獨立批次';
   document.getElementById('f-orig-brand').value=brand||'';
   document.getElementById('f-orig-batch').value=batchName||'';
-
   if(isEdit){
     const b=batches.find(x=>x.brand===brand&&x.batchName===batchName);
     if(b){
       document.getElementById('f-brand').value=b.brand;
       document.getElementById('f-batch').value=b.batchName;
       document.getElementById('f-status').value=b.status;
+      document.getElementById('f-shiptype').value=b.shipType||'';
       document.getElementById('f-eta').value=b.eta;
       document.getElementById('f-actual').value=b.actual;
       document.getElementById('f-note').value=b.note;
     }
   } else {
     document.getElementById('f-brand').value='';
-    // default batch name = today
     document.getElementById('f-batch').value=today;
     document.getElementById('f-status').value='飛行中';
+    document.getElementById('f-shiptype').value='';
     document.getElementById('f-eta').value='';
     document.getElementById('f-actual').value='';
     document.getElementById('f-note').value='';
@@ -557,6 +559,7 @@ async function saveBatch(){
         brand, batchName,
         originalBrand:origBrand, originalBatchName:origBatch,
         status:document.getElementById('f-status').value,
+        shipType:document.getElementById('f-shiptype').value,
         eta:document.getElementById('f-eta').value,
         actual:document.getElementById('f-actual').value,
         note:document.getElementById('f-note').value.trim()
@@ -578,20 +581,20 @@ async function deleteBatch(brand,batchName){
     });
     batches=batches.filter(b=>!(b.brand===brand&&b.batchName===batchName));
     items=items.filter(i=>!(i.brand===brand&&i.batchName===batchName));
-    render();
-    showToast('已刪除批次');
+    render(); showToast('已刪除批次');
   } catch(e){ showToast('⚠ 刪除失敗，請再試一次'); }
 }
 
-// ── Detail Modal ──
 function openDetail(brand,batchName){
   detailBrand=brand; detailBatch=batchName; editingItemName=null;
   const b=batches.find(x=>x.brand===brand&&x.batchName===batchName); if(!b) return;
   document.getElementById('detail-title').textContent=brand+' — '+batchName;
   document.getElementById('detail-subtitle').textContent='點擊 ✎ 可編輯品項，✕ 可刪除';
   const sc=statusKey[b.status]||'pending', overdue=isOverdue(b);
+  const shipHtml=b.shipType?`<span class="badge ${shipBadge[b.shipType]||''}">${shipIcon[b.shipType]||b.shipType}</span>`:' —';
   document.getElementById('detail-meta').innerHTML=`
     <div class="meta-card"><div class="mlabel">出貨狀態</div><div class="mvalue"><span class="badge ${badgeClass[sc]}">${esc(b.status)}</span></div></div>
+    <div class="meta-card"><div class="mlabel">運輸方式</div><div class="mvalue">${shipHtml}</div></div>
     <div class="meta-card"><div class="mlabel">預計到貨</div><div class="mvalue${overdue?' date-cell overdue':''}">${b.eta||'—'}${overdue?' ⚠':''}</div></div>
     <div class="meta-card"><div class="mlabel">實際到貨</div><div class="mvalue">${b.actual||'—'}</div></div>`;
   document.getElementById('new-item-name').value='';
