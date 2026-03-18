@@ -14,6 +14,7 @@
       --success-bg:#eaf3de; --success:#3b6d11;
       --danger-bg:#fcebeb; --danger:#a32d2d;
       --warn-bg:#faeeda; --warn:#854f0b;
+      --purple-bg:#f0e6fb; --purple:#6b21a8;
       --radius:8px; --radius-lg:12px;
     }
     @media (prefers-color-scheme: dark) {
@@ -25,31 +26,49 @@
         --success-bg:#162a08; --success:#97c459;
         --danger-bg:#2e0f0f; --danger:#f09595;
         --warn-bg:#2e1e08; --warn:#ef9f27;
+        --purple-bg:#2e1a40; --purple:#c084fc;
       }
     }
     body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif; background:var(--bg3); color:var(--text); min-height:100vh; padding:1.5rem; }
     .page-wrap { max-width:1140px; margin:0 auto; background:var(--bg); border-radius:var(--radius-lg); border:0.5px solid var(--border); overflow:hidden; }
 
-    .header { padding:1.5rem 2rem 1.25rem; border-bottom:0.5px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    /* Header */
+    .header { padding:1.25rem 2rem; border-bottom:0.5px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
     .header-brand { display:flex; align-items:center; gap:12px; }
-    .header-icon { width:36px; height:36px; border-radius:var(--radius); background:var(--bg2); border:0.5px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:18px; }
-    .header-left h1 { font-size:17px; font-weight:500; }
-    .header-left p { font-size:12px; color:var(--text2); margin-top:2px; }
+    .header-icon { width:34px; height:34px; border-radius:var(--radius); background:var(--bg2); border:0.5px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:17px; }
+    .header-left h1 { font-size:16px; font-weight:500; }
+    .header-left p { font-size:12px; color:var(--text2); margin-top:1px; }
     .header-right { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
 
+    /* Tab nav */
+    .tab-nav { display:flex; border-bottom:0.5px solid var(--border); padding:0 2rem; gap:0; }
+    .tab-btn { padding:10px 16px; font-size:13px; font-weight:500; cursor:pointer; border:none; background:none; color:var(--text2); border-bottom:2px solid transparent; margin-bottom:-0.5px; font-family:inherit; transition:all 0.15s; white-space:nowrap; }
+    .tab-btn:hover { color:var(--text); }
+    .tab-btn.active { color:var(--info); border-bottom-color:var(--info); }
+    .tab-pane { display:none; }
+    .tab-pane.active { display:block; }
+
+    /* Stats */
     .stats-row { display:grid; grid-template-columns:repeat(5,1fr); border-bottom:0.5px solid var(--border); }
     .stat-card { padding:1rem 1.25rem; border-right:0.5px solid var(--border); cursor:pointer; transition:background 0.15s; }
     .stat-card:last-child { border-right:none; }
     .stat-card:hover,.stat-card.active-stat { background:var(--bg2); }
     .stat-card .label { font-size:11px; color:var(--text2); margin-bottom:5px; text-transform:uppercase; letter-spacing:0.03em; }
-    .stat-card .value { font-size:24px; font-weight:500; }
+    .stat-card .value { font-size:22px; font-weight:500; }
     .stat-card.transit .value { color:var(--info); }
     .stat-card.customs .value { color:var(--warn); }
     .stat-card.arrived .value { color:var(--success); }
     .stat-card.overdue-card .value { color:var(--danger); }
 
+    /* Demand stats */
+    .demand-stats { display:grid; grid-template-columns:repeat(4,1fr); border-bottom:0.5px solid var(--border); }
+    .demand-stats .stat-card.urgent .value { color:var(--danger); }
+    .demand-stats .stat-card.replied .value { color:var(--success); }
+    .demand-stats .stat-card.pending-d .value { color:var(--warn); }
+
+    /* Toolbar */
     .toolbar { padding:1rem 2rem; display:flex; gap:10px; align-items:center; flex-wrap:wrap; border-bottom:0.5px solid var(--border); }
-    .search-wrap { position:relative; flex:1; min-width:200px; }
+    .search-wrap { position:relative; flex:1; min-width:180px; }
     .search-wrap input { width:100%; padding:8px 12px 8px 34px; border:0.5px solid var(--border2); border-radius:var(--radius); font-size:13px; color:var(--text); background:var(--bg); }
     .search-wrap input:focus { outline:none; border-color:var(--info); box-shadow:0 0 0 3px rgba(24,95,165,0.1); }
     .search-icon { position:absolute; left:11px; top:50%; transform:translateY(-50%); font-size:14px; pointer-events:none; color:var(--text3); }
@@ -58,7 +77,9 @@
     .filter-btn:hover { background:var(--bg2); }
     .filter-btn.active { background:var(--info-bg); border-color:var(--info); color:var(--info); }
     .filter-btn.overdue-btn.active { background:var(--danger-bg); border-color:var(--danger); color:var(--danger); }
+    .filter-btn.urgent-btn.active { background:var(--danger-bg); border-color:var(--danger); color:var(--danger); }
 
+    /* Buttons */
     .btn { padding:8px 15px; border-radius:var(--radius); border:0.5px solid var(--border2); background:var(--bg); font-size:13px; cursor:pointer; color:var(--text); font-weight:500; white-space:nowrap; font-family:inherit; transition:background 0.15s; }
     .btn:hover { background:var(--bg2); }
     .btn:disabled { opacity:0.5; cursor:not-allowed; }
@@ -66,18 +87,17 @@
     .btn-primary:hover { opacity:0.82; background:var(--text); }
     .btn-sm { padding:5px 10px; font-size:12px; }
 
+    /* Tracker table */
     .table-wrap { overflow-x:auto; padding-bottom:1.5rem; }
     table { width:100%; border-collapse:collapse; font-size:13px; }
     thead tr { border-bottom:0.5px solid var(--border2); }
     thead th { text-align:left; padding:10px 1rem; font-size:11px; font-weight:500; color:var(--text2); white-space:nowrap; letter-spacing:0.02em; }
-
     .brand-group-row { background:var(--bg2); cursor:pointer; border-bottom:0.5px solid var(--border2); }
     .brand-group-row:hover { background:var(--bg3); }
     .brand-group-row td { padding:10px 1rem; font-weight:500; font-size:13px; }
     .expand-icon { display:inline-block; width:16px; margin-right:6px; font-size:11px; color:var(--text3); transition:transform 0.2s; }
     .expand-icon.open { transform:rotate(90deg); }
     .batch-count { font-size:11px; color:var(--text2); font-weight:400; margin-left:4px; }
-
     .batch-row { border-bottom:0.5px solid var(--border); transition:background 0.1s; }
     .batch-row:hover { background:var(--bg2); }
     .batch-row.overdue-row { background:rgba(163,45,45,0.04); }
@@ -91,17 +111,40 @@
     .icon-btn:hover { background:var(--bg3); color:var(--text); }
     .icon-btn.del:hover { background:var(--danger-bg); color:var(--danger); }
 
+    /* Demand table */
+    .demand-table-wrap { overflow-x:auto; padding-bottom:1.5rem; }
+    .demand-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .demand-table thead tr { border-bottom:0.5px solid var(--border2); }
+    .demand-table thead th { text-align:left; padding:10px 1.25rem; font-size:11px; font-weight:500; color:var(--text2); white-space:nowrap; letter-spacing:0.02em; }
+    .demand-table tbody tr { border-bottom:0.5px solid var(--border); transition:background 0.1s; }
+    .demand-table tbody tr:last-child { border-bottom:none; }
+    .demand-table tbody tr:hover { background:var(--bg2); }
+    .demand-table tbody td { padding:11px 1.25rem; vertical-align:middle; }
+    .demand-row-actions { display:flex; gap:4px; opacity:0; transition:opacity 0.1s; }
+    .demand-table tbody tr:hover .demand-row-actions { opacity:1; }
+
+    /* Reply status selector inline */
+    .reply-select { padding:4px 8px; border-radius:var(--radius); border:0.5px solid var(--border2); font-size:12px; background:var(--bg); color:var(--text); font-family:inherit; cursor:pointer; }
+    .reply-select:focus { outline:none; border-color:var(--info); }
+
+    /* Badges */
     .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:500; white-space:nowrap; }
     .badge-transit { background:var(--info-bg); color:var(--info); }
     .badge-customs { background:var(--warn-bg); color:var(--warn); }
     .badge-arrived { background:var(--success-bg); color:var(--success); }
     .badge-pending { background:var(--bg2); color:var(--text2); }
-    .badge-air { background:#f0e6fb; color:#6b21a8; }
-    .badge-sea { background:#e0f2fe; color:#0369a1; }
+    .badge-air { background:var(--purple-bg); color:var(--purple); }
+    .badge-sea { background:var(--info-bg); color:var(--info); }
+    .badge-urgent { background:var(--danger-bg); color:var(--danger); }
+    .badge-normal { background:var(--bg2); color:var(--text2); }
+    .badge-reply-pending { background:var(--warn-bg); color:var(--warn); }
+    .badge-reply-confirmed { background:var(--success-bg); color:var(--success); }
+    .badge-reply-checking { background:var(--info-bg); color:var(--info); }
+    .badge-reply-nostock { background:var(--danger-bg); color:var(--danger); }
 
     .date-cell { color:var(--text2); font-size:12px; }
     .date-cell.overdue { color:var(--danger); font-weight:500; }
-    .note-cell { color:var(--text2); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; }
+    .note-cell { color:var(--text2); max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; }
     .items-pill { background:var(--bg2); border:0.5px solid var(--border); padding:2px 8px; border-radius:20px; font-size:12px; color:var(--text2); white-space:nowrap; }
 
     .loading-state { text-align:center; padding:3rem 1rem; color:var(--text2); font-size:13px; }
@@ -115,6 +158,7 @@
 
     .page-footer { padding:1rem 2rem; border-top:0.5px solid var(--border); font-size:11px; color:var(--text3); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 
+    /* Modals */
     .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; z-index:100; padding:1rem; }
     .modal-overlay.hidden { display:none; }
     .modal { background:var(--bg); border-radius:var(--radius-lg); border:0.5px solid var(--border2); width:100%; padding:2rem; box-shadow:0 8px 40px rgba(0,0,0,0.18); max-height:90vh; overflow-y:auto; }
@@ -125,7 +169,6 @@
     .modal-header p { font-size:12px; color:var(--text2); margin-top:3px; }
     .btn-close { background:none; border:none; font-size:18px; cursor:pointer; color:var(--text2); padding:0 4px; line-height:1; flex-shrink:0; }
     .btn-close:hover { color:var(--text); }
-
     .form-row { margin-bottom:16px; }
     .form-row label { display:block; font-size:12px; color:var(--text2); margin-bottom:6px; font-weight:500; }
     .form-row input,.form-row select,.form-row textarea { width:100%; padding:9px 12px; border:0.5px solid var(--border2); border-radius:var(--radius); font-size:13px; color:var(--text); background:var(--bg); font-family:inherit; }
@@ -137,12 +180,12 @@
     .btn-cancel { padding:9px 18px; border-radius:var(--radius); border:0.5px solid var(--border2); background:transparent; font-size:13px; cursor:pointer; color:var(--text2); font-family:inherit; }
     .btn-cancel:hover { background:var(--bg2); }
 
+    /* Detail modal */
     .detail-meta { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:1.25rem; }
     .meta-card { background:var(--bg2); border-radius:var(--radius); padding:10px 12px; }
     .meta-card .mlabel { font-size:11px; color:var(--text2); margin-bottom:3px; }
     .meta-card .mvalue { font-size:13px; font-weight:500; }
     .section-title { font-size:12px; font-weight:500; color:var(--text2); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px; margin-top:1.5rem; display:flex; align-items:center; justify-content:space-between; }
-
     .items-table { width:100%; border-collapse:collapse; font-size:13px; }
     .items-table thead tr { border-bottom:0.5px solid var(--border2); }
     .items-table thead th { text-align:left; padding:7px 8px; font-size:11px; color:var(--text2); font-weight:500; }
@@ -155,7 +198,6 @@
     .iicon-btn:hover { background:var(--bg2); color:var(--text); }
     .iicon-btn.del:hover { background:var(--danger-bg); color:var(--danger); }
     .iicon-btn.save-btn:hover { background:var(--success-bg); color:var(--success); }
-
     .add-item-row { display:flex; gap:8px; align-items:center; margin-top:10px; }
     .add-item-row input { padding:7px 10px; border:0.5px solid var(--border2); border-radius:var(--radius); font-size:13px; color:var(--text); background:var(--bg); font-family:inherit; }
     .add-item-row input:focus { outline:none; border-color:var(--info); box-shadow:0 0 0 3px rgba(24,95,165,0.1); }
@@ -169,19 +211,19 @@
     @media (max-width:640px) {
       body { padding:0; }
       .page-wrap { border-radius:0; border:none; }
-      .stats-row { grid-template-columns:repeat(3,1fr); }
+      .stats-row,.demand-stats { grid-template-columns:repeat(2,1fr); }
       .stat-card { border-bottom:0.5px solid var(--border); }
       .form-grid-2,.form-grid-3 { grid-template-columns:1fr 1fr; }
       .detail-meta { grid-template-columns:1fr 1fr; }
-      .header,.toolbar { padding:1.25rem; }
-      thead th,.batch-row td,.brand-group-row td { padding-left:0.75rem; padding-right:0.75rem; }
-      .batch-row td:first-child { padding-left:1.75rem; }
+      .header,.toolbar { padding:1rem; }
+      .tab-nav { padding:0 1rem; }
     }
   </style>
 </head>
 <body>
 <div class="page-wrap">
 
+  <!-- Header -->
   <div class="header">
     <div class="header-brand">
       <div class="header-icon">📦</div>
@@ -196,48 +238,43 @@
         <span id="sync-text">載入中…</span>
       </div>
       <button class="btn" onclick="loadAll()" id="btn-refresh">↻ 重新整理</button>
-      <button class="btn btn-primary" onclick="openBatchModal()">＋ 新增到貨批次</button>
+      <button class="btn btn-primary" id="btn-main-action" onclick="openBatchModal()">＋ 新增到貨批次</button>
     </div>
   </div>
 
-  <div class="stats-row">
-    <div class="stat-card active-stat" onclick="setFilter('all')" data-filter="all">
-      <div class="label">全部批次</div><div class="value" id="stat-all">—</div>
-    </div>
-    <div class="stat-card transit" onclick="setFilter('transit')" data-filter="transit">
-      <div class="label">飛行中</div><div class="value" id="stat-transit">—</div>
-    </div>
-    <div class="stat-card customs" onclick="setFilter('customs')" data-filter="customs">
-      <div class="label">清關中</div><div class="value" id="stat-customs">—</div>
-    </div>
-    <div class="stat-card arrived" onclick="setFilter('arrived')" data-filter="arrived">
-      <div class="label">已到貨</div><div class="value" id="stat-arrived">—</div>
-    </div>
-    <div class="stat-card overdue-card" onclick="setFilter('overdue')" data-filter="overdue">
-      <div class="label">⚠ 逾期未到</div><div class="value" id="stat-overdue">—</div>
-    </div>
+  <!-- Tab nav -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('tracker')">✈ 到貨追蹤</button>
+    <button class="tab-btn" onclick="switchTab('demand')">📋 需求表</button>
   </div>
 
-  <div class="toolbar">
-    <div class="search-wrap">
-      <span class="search-icon">⌕</span>
-      <input type="text" id="search-input" placeholder="搜尋品牌或批次名稱…" oninput="renderTable()">
+  <!-- ═══ TAB: 到貨追蹤 ═══ -->
+  <div class="tab-pane active" id="tab-tracker">
+    <div class="stats-row">
+      <div class="stat-card active-stat" onclick="setFilter('all')" data-filter="all"><div class="label">全部批次</div><div class="value" id="stat-all">—</div></div>
+      <div class="stat-card transit" onclick="setFilter('transit')" data-filter="transit"><div class="label">飛行中</div><div class="value" id="stat-transit">—</div></div>
+      <div class="stat-card customs" onclick="setFilter('customs')" data-filter="customs"><div class="label">清關中</div><div class="value" id="stat-customs">—</div></div>
+      <div class="stat-card arrived" onclick="setFilter('arrived')" data-filter="arrived"><div class="label">已到貨</div><div class="value" id="stat-arrived">—</div></div>
+      <div class="stat-card overdue-card" onclick="setFilter('overdue')" data-filter="overdue"><div class="label">⚠ 逾期未到</div><div class="value" id="stat-overdue">—</div></div>
     </div>
-    <div class="filter-btns">
-      <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">全部</button>
-      <button class="filter-btn" data-filter="transit" onclick="setFilter('transit')">✈ 飛行中</button>
-      <button class="filter-btn" data-filter="customs" onclick="setFilter('customs')">⏳ 清關中</button>
-      <button class="filter-btn" data-filter="arrived" onclick="setFilter('arrived')">✓ 已到貨</button>
-      <button class="filter-btn" data-filter="pending" onclick="setFilter('pending')">— 待出貨</button>
-      <button class="filter-btn overdue-btn" data-filter="overdue" onclick="setFilter('overdue')">⚠ 逾期未到</button>
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="tracker-search" placeholder="搜尋品牌或批次名稱…" oninput="renderTracker()">
+      </div>
+      <div class="filter-btns">
+        <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">全部</button>
+        <button class="filter-btn" data-filter="transit" onclick="setFilter('transit')">✈ 飛行中</button>
+        <button class="filter-btn" data-filter="customs" onclick="setFilter('customs')">⏳ 清關中</button>
+        <button class="filter-btn" data-filter="arrived" onclick="setFilter('arrived')">✓ 已到貨</button>
+        <button class="filter-btn" data-filter="pending" onclick="setFilter('pending')">— 待出貨</button>
+        <button class="filter-btn overdue-btn" data-filter="overdue" onclick="setFilter('overdue')">⚠ 逾期未到</button>
+      </div>
     </div>
-  </div>
-
-  <div class="table-wrap">
-    <div class="loading-state" id="loading-state">⏳ 正在從 Google Sheets 載入資料…</div>
-    <table id="main-table" style="display:none">
-      <thead>
-        <tr>
+    <div class="table-wrap">
+      <div class="loading-state" id="tracker-loading">⏳ 正在載入資料…</div>
+      <table id="tracker-table" style="display:none">
+        <thead><tr>
           <th style="width:20%">品牌 / 批次</th>
           <th style="width:11%">出貨狀態</th>
           <th style="width:10%">運輸方式</th>
@@ -246,11 +283,52 @@
           <th style="width:9%">品項</th>
           <th style="width:16%">備註</th>
           <th style="width:12%"></th>
-        </tr>
-      </thead>
-      <tbody id="table-body"></tbody>
-    </table>
-    <div class="empty-state hidden" id="empty-state">目前尚無資料，請點擊右上角「＋ 新增到貨批次」開始輸入。</div>
+        </tr></thead>
+        <tbody id="tracker-body"></tbody>
+      </table>
+      <div class="empty-state hidden" id="tracker-empty">目前尚無資料，請點擊右上角「＋ 新增到貨批次」開始輸入。</div>
+    </div>
+  </div>
+
+  <!-- ═══ TAB: 需求表 ═══ -->
+  <div class="tab-pane" id="tab-demand">
+    <div class="demand-stats">
+      <div class="stat-card" onclick="setDemandFilter('all')" data-dfilter="all"><div class="label">全部需求</div><div class="value" id="dstat-all">—</div></div>
+      <div class="stat-card urgent" onclick="setDemandFilter('urgent')" data-dfilter="urgent"><div class="label">🔴 緊急</div><div class="value" id="dstat-urgent">—</div></div>
+      <div class="stat-card pending-d" onclick="setDemandFilter('pending')" data-dfilter="pending"><div class="label">⏳ 待確認</div><div class="value" id="dstat-pending">—</div></div>
+      <div class="stat-card replied" onclick="setDemandFilter('replied')" data-dfilter="replied"><div class="label">✓ 已回覆</div><div class="value" id="dstat-replied">—</div></div>
+    </div>
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="demand-search" placeholder="搜尋品牌或品項名稱…" oninput="renderDemand()">
+      </div>
+      <div class="filter-btns">
+        <button class="filter-btn active" data-dfilter="all" onclick="setDemandFilter('all')">全部</button>
+        <button class="filter-btn urgent-btn" data-dfilter="urgent" onclick="setDemandFilter('urgent')">🔴 緊急</button>
+        <button class="filter-btn" data-dfilter="normal" onclick="setDemandFilter('normal')">一般</button>
+        <button class="filter-btn" data-dfilter="pending" onclick="setDemandFilter('pending')">⏳ 待確認</button>
+        <button class="filter-btn" data-dfilter="checking" onclick="setDemandFilter('checking')">詢貨中</button>
+        <button class="filter-btn" data-dfilter="nostock" onclick="setDemandFilter('nostock')">無庫存</button>
+      </div>
+    </div>
+    <div class="demand-table-wrap">
+      <div class="loading-state" id="demand-loading" style="display:none">⏳ 載入中…</div>
+      <table class="demand-table" id="demand-table">
+        <thead><tr>
+          <th style="width:14%">品牌</th>
+          <th style="width:20%">品項名稱／品號</th>
+          <th style="width:8%">數量</th>
+          <th style="width:9%">優先級</th>
+          <th style="width:16%">備註</th>
+          <th style="width:15%">國外部回覆</th>
+          <th style="width:12%">建立時間</th>
+          <th style="width:6%"></th>
+        </tr></thead>
+        <tbody id="demand-body"></tbody>
+      </table>
+      <div class="empty-state hidden" id="demand-empty">目前尚無需求，請點擊右上角「＋ 新增需求」開始輸入。</div>
+    </div>
   </div>
 
   <div class="page-footer">
@@ -263,27 +341,16 @@
 <div class="modal-overlay hidden" id="batch-modal" onclick="closeOnOverlay(event,'batch-modal')">
   <div class="modal modal-sm">
     <div class="modal-header">
-      <div>
-        <h2 id="batch-modal-title">新增到貨批次</h2>
-        <p id="batch-modal-sub">同一品牌可新增多次，每次為獨立批次</p>
-      </div>
+      <div><h2 id="batch-modal-title">新增到貨批次</h2><p id="batch-modal-sub">同一品牌可新增多次，每次為獨立批次</p></div>
       <button class="btn-close" onclick="closeModal('batch-modal')">✕</button>
     </div>
-    <input type="hidden" id="f-orig-brand">
-    <input type="hidden" id="f-orig-batch">
+    <input type="hidden" id="f-orig-brand"><input type="hidden" id="f-orig-batch">
     <div class="form-grid-2">
-      <div class="form-row">
-        <label>品牌名稱 *</label>
-        <input type="text" id="f-brand" placeholder="例：Nike" autocomplete="off">
-      </div>
-      <div class="form-row">
-        <label>批次名稱</label>
-        <input type="text" id="f-batch" placeholder="例：春季批">
-      </div>
+      <div class="form-row"><label>品牌名稱 *</label><input type="text" id="f-brand" placeholder="例：Nike" autocomplete="off"></div>
+      <div class="form-row"><label>批次名稱</label><input type="text" id="f-batch" placeholder="例：春季批"></div>
     </div>
     <div class="form-grid-2">
-      <div class="form-row">
-        <label>出貨狀態</label>
+      <div class="form-row"><label>出貨狀態</label>
         <select id="f-status">
           <option value="待出貨">— 待出貨</option>
           <option value="飛行中" selected>✈ 飛行中</option>
@@ -291,8 +358,7 @@
           <option value="已到貨">✓ 已到貨</option>
         </select>
       </div>
-      <div class="form-row">
-        <label>運輸方式</label>
+      <div class="form-row"><label>運輸方式</label>
         <select id="f-shiptype">
           <option value="">— 未指定</option>
           <option value="空運">✈ 空運</option>
@@ -304,10 +370,7 @@
       <div class="form-row"><label>預計到貨日期</label><input type="date" id="f-eta"></div>
       <div class="form-row"><label>實際到貨日期</label><input type="date" id="f-actual"></div>
     </div>
-    <div class="form-row">
-      <label>備註 / 說明</label>
-      <textarea id="f-note" placeholder="航班號、船名、聯絡人、特殊注意事項…"></textarea>
-    </div>
+    <div class="form-row"><label>備註 / 說明</label><textarea id="f-note" placeholder="航班號、船名、聯絡人…"></textarea></div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal('batch-modal')">取消</button>
       <button class="btn btn-primary" id="btn-save-batch" onclick="saveBatch()">儲存並同步 →</button>
@@ -315,33 +378,20 @@
   </div>
 </div>
 
-<!-- 批次詳細 / 品項 Modal -->
+<!-- 批次詳細 Modal -->
 <div class="modal-overlay hidden" id="detail-modal" onclick="closeOnOverlay(event,'detail-modal')">
   <div class="modal modal-lg">
     <div class="modal-header">
-      <div>
-        <h2 id="detail-title">批次詳細資訊</h2>
-        <p id="detail-subtitle" style="font-size:12px;color:var(--text2);margin-top:3px;"></p>
-      </div>
+      <div><h2 id="detail-title">批次詳細資訊</h2><p id="detail-subtitle" style="font-size:12px;color:var(--text2);margin-top:3px;"></p></div>
       <div style="display:flex;gap:8px;align-items:center;">
         <button class="btn btn-sm" onclick="openEditBatch()">✎ 編輯批次</button>
         <button class="btn-close" onclick="closeModal('detail-modal')">✕</button>
       </div>
     </div>
     <div class="detail-meta" id="detail-meta"></div>
-    <div class="section-title">
-      <span>品項清單</span>
-      <span id="items-total" style="font-weight:400;font-size:12px;color:var(--text2);"></span>
-    </div>
+    <div class="section-title"><span>品項清單</span><span id="items-total" style="font-weight:400;font-size:12px;color:var(--text2);"></span></div>
     <table class="items-table">
-      <thead>
-        <tr>
-          <th style="width:44%">品項名稱／品號</th>
-          <th style="width:18%">數量</th>
-          <th style="width:26%">新增時間</th>
-          <th style="width:12%"></th>
-        </tr>
-      </thead>
+      <thead><tr><th style="width:44%">品項名稱／品號</th><th style="width:18%">數量</th><th style="width:26%">新增時間</th><th style="width:12%"></th></tr></thead>
       <tbody id="items-body"></tbody>
     </table>
     <div class="no-items hidden" id="no-items">尚未新增任何品項</div>
@@ -353,32 +403,53 @@
   </div>
 </div>
 
+<!-- 新增/編輯需求 Modal -->
+<div class="modal-overlay hidden" id="demand-modal" onclick="closeOnOverlay(event,'demand-modal')">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <div><h2 id="demand-modal-title">新增缺貨需求</h2><p id="demand-modal-sub">國外部會看到此需求並更新回覆狀態</p></div>
+      <button class="btn-close" onclick="closeModal('demand-modal')">✕</button>
+    </div>
+    <input type="hidden" id="df-timestamp">
+    <div class="form-grid-2">
+      <div class="form-row"><label>品牌名稱 *</label><input type="text" id="df-brand" placeholder="例：Nike" autocomplete="off"></div>
+      <div class="form-row"><label>品項名稱／品號 *</label><input type="text" id="df-item" placeholder="例：Air Max 90"></div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row"><label>需求數量</label><input type="number" id="df-qty" placeholder="例：10" min="1"></div>
+      <div class="form-row"><label>優先級</label>
+        <select id="df-priority">
+          <option value="一般">一般</option>
+          <option value="緊急">🔴 緊急</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row"><label>備註</label><textarea id="df-note" placeholder="尺寸、顏色、特殊說明…"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('demand-modal')">取消</button>
+      <button class="btn btn-primary" id="btn-save-demand" onclick="saveDemand()">儲存並同步 →</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const API = 'https://script.google.com/macros/s/AKfycbwwa2ppeiw79NbJs2k71fCh4QeowJXKmsOrhRc87RR661chz-bhDz0eni0_m5UDeiFn/exec';
-let batches = [], items = [];
-let currentFilter = 'all';
-let expandedBrands = new Set();
-let detailBrand = null, detailBatch = null, editingItemName = null;
-function cleanDate(v) {
-  if (!v) return '';
-  const s = String(v);
-  // ISO format: 2026-03-17T16:00:00.000Z → 2026-03-18 (轉台灣時區)
-  if (s.includes('T')) {
-    const d = new Date(s);
-    if (!isNaN(d)) return d.toLocaleDateString('zh-TW', {timeZone:'Asia/Taipei'}).replace(/\//g, '-').replace(/(\d+)-(\d+)-(\d+)/, (_, y, m, d) => `${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`);
-  }
-  return s;
-}
-const today = new Date().toISOString().slice(0,10);
+let batches=[], items=[], demands=[];
+let currentFilter='all', currentDemandFilter='all';
+let expandedBrands=new Set();
+let detailBrand=null, detailBatch=null, editingItemName=null;
+let currentTab='tracker';
+const today=new Date().toISOString().slice(0,10);
 
-const statusKey = {'飛行中':'transit','清關中':'customs','已到貨':'arrived','待出貨':'pending'};
-const badgeClass = {transit:'badge-transit',customs:'badge-customs',arrived:'badge-arrived',pending:'badge-pending'};
-const filterToStatus = {transit:'飛行中',customs:'清關中',arrived:'已到貨',pending:'待出貨'};
-const shipBadge = {'空運':'badge-air','海運':'badge-sea'};
-const shipIcon = {'空運':'✈ 空運','海運':'🚢 海運'};
-const isOverdue = b => b.eta && b.eta < today && b.status !== '已到貨';
+const statusKey={'飛行中':'transit','清關中':'customs','已到貨':'arrived','待出貨':'pending'};
+const badgeClass={transit:'badge-transit',customs:'badge-customs',arrived:'badge-arrived',pending:'badge-pending'};
+const filterToStatus={transit:'飛行中',customs:'清關中',arrived:'已到貨',pending:'待出貨'};
+const shipBadge={'空運':'badge-air','海運':'badge-sea'};
+const shipIcon={'空運':'✈ 空運','海運':'🚢 海運'};
+const replyBadge={'待確認':'badge-reply-pending','已確認':'badge-reply-confirmed','詢貨中':'badge-reply-checking','無庫存':'badge-reply-nostock'};
+const isOverdue=b=>b.eta&&b.eta<today&&b.status!=='已到貨';
 
 function setSyncState(s,m){
   document.getElementById('sync-dot').className='sync-dot'+(s==='syncing'?' syncing':s==='error'?' error':'');
@@ -390,41 +461,60 @@ function showToast(m){
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 
+// ── Tab switch ──
+function switchTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['tracker','demand'][i]===tab));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  const btn=document.getElementById('btn-main-action');
+  if(tab==='tracker'){ btn.textContent='＋ 新增到貨批次'; btn.onclick=openBatchModal; }
+  else { btn.textContent='＋ 新增需求'; btn.onclick=openDemandModal; }
+}
+
+// ── Load all data ──
 async function loadAll(){
   setSyncState('syncing','同步中…');
   document.getElementById('btn-refresh').disabled=true;
-  document.getElementById('loading-state').style.display='block';
-  document.getElementById('main-table').style.display='none';
-  document.getElementById('empty-state').classList.add('hidden');
+  document.getElementById('tracker-loading').style.display='block';
+  document.getElementById('tracker-table').style.display='none';
+  document.getElementById('tracker-empty').classList.add('hidden');
   try {
-    const [bRes,iRes] = await Promise.all([
+    const [bRes,iRes,dRes]=await Promise.all([
       fetch(API+'?type=batches&t='+Date.now()),
-      fetch(API+'?type=items&t='+Date.now())
+      fetch(API+'?type=items&t='+Date.now()),
+      fetch(API+'?type=demands&t='+Date.now())
     ]);
-    const bRows=await bRes.json(), iRows=await iRes.json();
+    const bRows=await bRes.json(), iRows=await iRes.json(), dRows=await dRes.json();
     batches=(bRows.slice(1)||[]).filter(r=>r[0]).map(r=>({
-  brand:r[0]||'', batchName:cleanDate(r[1])||'', status:r[2]||'待出貨',
-  shipType:r[3]||'', eta:cleanDate(r[4])||'', actual:cleanDate(r[5])||'',
-  note:r[6]||'', timestamp:r[7]||''
-}));
+      brand:r[0]||'',batchName:String(r[1]||''),status:r[2]||'待出貨',
+      shipType:r[3]||'',eta:String(r[4]||''),actual:String(r[5]||''),
+      note:r[6]||'',timestamp:r[7]||''
+    }));
     items=(iRows.slice(1)||[]).filter(r=>r[0]).map(r=>({
-      brand:r[0]||'', batchName:r[1]||'', itemName:r[2]||'',
-      qty:r[3]||'', timestamp:r[4]||''
+      brand:r[0]||'',batchName:String(r[1]||''),itemName:r[2]||'',qty:r[3]||'',timestamp:r[4]||''
+    }));
+    demands=(dRows.slice(1)||[]).filter(r=>r[0]).map(r=>({
+      brand:r[0]||'',itemName:r[1]||'',qty:r[2]||'',priority:r[3]||'一般',
+      note:r[4]||'',replyStatus:r[5]||'待確認',timestamp:String(r[6]||'')
     }));
     const now=new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
     setSyncState('ok','已同步 '+now);
     document.getElementById('last-updated').textContent='最後更新：'+new Date().toLocaleString('zh-TW');
-    render();
+    renderTracker(); renderDemand();
   } catch(e){
     setSyncState('error','連線失敗');
-    document.getElementById('loading-state').textContent='⚠ 載入失敗，請按「重新整理」再試。';
+    document.getElementById('tracker-loading').textContent='⚠ 載入失敗，請按「重新整理」再試。';
     showToast('⚠ 無法連線至 Google Sheets');
   }
   document.getElementById('btn-refresh').disabled=false;
 }
 
+// ════════════════════════════
+// TRACKER
+// ════════════════════════════
 function getFilteredBatches(){
-  const q=document.getElementById('search-input').value.toLowerCase();
+  const q=document.getElementById('tracker-search').value.toLowerCase();
   return batches.filter(b=>{
     if(currentFilter==='overdue') return isOverdue(b)&&(!q||b.brand.toLowerCase().includes(q)||b.batchName.toLowerCase().includes(q));
     const mf=currentFilter==='all'||b.status===(filterToStatus[currentFilter]||'');
@@ -432,94 +522,76 @@ function getFilteredBatches(){
   });
 }
 
-function renderStats(){
+function renderTrackerStats(){
   document.getElementById('stat-all').textContent=batches.length;
   document.getElementById('stat-transit').textContent=batches.filter(b=>b.status==='飛行中').length;
   document.getElementById('stat-customs').textContent=batches.filter(b=>b.status==='清關中').length;
   document.getElementById('stat-arrived').textContent=batches.filter(b=>b.status==='已到貨').length;
   document.getElementById('stat-overdue').textContent=batches.filter(isOverdue).length;
-  document.querySelectorAll('.stat-card').forEach(c=>c.classList.toggle('active-stat',c.dataset.filter===currentFilter));
+  document.querySelectorAll('.stat-card[data-filter]').forEach(c=>c.classList.toggle('active-stat',c.dataset.filter===currentFilter));
 }
 
-function renderTable(){
+function renderTracker(){
+  renderTrackerStats();
   const filtered=getFilteredBatches();
   const brandMap=new Map();
-  filtered.forEach(b=>{
-    if(!brandMap.has(b.brand)) brandMap.set(b.brand,[]);
-    brandMap.get(b.brand).push(b);
-  });
+  filtered.forEach(b=>{ if(!brandMap.has(b.brand)) brandMap.set(b.brand,[]); brandMap.get(b.brand).push(b); });
 
   if(brandMap.size===0){
-    document.getElementById('loading-state').style.display='none';
-    document.getElementById('main-table').style.display='none';
-    document.getElementById('empty-state').classList.remove('hidden');
-    document.getElementById('empty-state').textContent=currentFilter==='overdue'?'目前沒有逾期未到貨的批次 🎉':'目前尚無資料，請點擊右上角「＋ 新增到貨批次」開始輸入。';
+    document.getElementById('tracker-loading').style.display='none';
+    document.getElementById('tracker-table').style.display='none';
+    document.getElementById('tracker-empty').classList.remove('hidden');
+    document.getElementById('tracker-empty').textContent=currentFilter==='overdue'?'目前沒有逾期未到貨的批次 🎉':'目前尚無資料，請點擊右上角「＋ 新增到貨批次」開始輸入。';
     return;
   }
 
-  const q=document.getElementById('search-input').value;
+  const q=document.getElementById('tracker-search').value;
   const forceExpand=currentFilter!=='all'||q.length>0;
   let html='';
-
   brandMap.forEach((bList,brand)=>{
     const isOpen=forceExpand||expandedBrands.has(brand);
-    const statusCounts={};
-    bList.forEach(b=>{ statusCounts[b.status]=(statusCounts[b.status]||0)+1; });
-    const badgePills=Object.entries(statusCounts).map(([s,n])=>`<span class="badge ${badgeClass[statusKey[s]||'pending']}" style="font-size:10px;padding:2px 7px">${s} ${n}</span>`).join('');
-
+    const sc={};
+    bList.forEach(b=>{ sc[b.status]=(sc[b.status]||0)+1; });
+    const pills=Object.entries(sc).map(([s,n])=>`<span class="badge ${badgeClass[statusKey[s]||'pending']}" style="font-size:10px;padding:2px 7px">${s} ${n}</span>`).join('');
     html+=`<tr class="brand-group-row" onclick="toggleBrand('${esc(brand)}')">
-      <td colspan="8">
-        <span class="expand-icon${isOpen?' open':''}">▶</span>
-        <strong>${esc(brand)}</strong>
-        <span class="batch-count">${bList.length} 批次</span>
-        <span style="margin-left:10px;display:inline-flex;gap:5px;">${badgePills}</span>
-      </td>
+      <td colspan="8"><span class="expand-icon${isOpen?' open':''}">▶</span><strong>${esc(brand)}</strong><span class="batch-count">${bList.length} 批次</span><span style="margin-left:10px;display:inline-flex;gap:5px;">${pills}</span></td>
     </tr>`;
-
     if(isOpen){
       bList.forEach(b=>{
-        const sc=statusKey[b.status]||'pending', overdue=isOverdue(b);
+        const sk=statusKey[b.status]||'pending', overdue=isOverdue(b);
         const cnt=items.filter(i=>i.brand===b.brand&&i.batchName===b.batchName).length;
         const shipHtml=b.shipType?`<span class="badge ${shipBadge[b.shipType]||''}" style="font-size:10px;padding:2px 8px">${shipIcon[b.shipType]||b.shipType}</span>`:'<span style="color:var(--text3);font-size:12px">—</span>';
         html+=`<tr class="batch-row${overdue?' overdue-row':''}">
           <td><button class="batch-name" onclick="openDetail('${esc(b.brand)}','${esc(b.batchName)}')">${esc(b.batchName)||'（未命名）'}</button></td>
-          <td><span class="badge ${badgeClass[sc]}">${esc(b.status)}</span></td>
+          <td><span class="badge ${badgeClass[sk]}">${esc(b.status)}</span></td>
           <td>${shipHtml}</td>
           <td class="date-cell${overdue?' overdue':''}">${b.eta||'—'}${overdue?' ⚠':''}</td>
           <td class="date-cell">${b.actual||'—'}</td>
           <td><span class="items-pill">${cnt} 項</span></td>
           <td class="note-cell" title="${esc(b.note)}">${b.note?esc(b.note):'<span style="opacity:0.4">無</span>'}</td>
-          <td>
-            <div class="row-actions">
-              <button class="icon-btn" onclick="openEditBatchFor('${esc(b.brand)}','${esc(b.batchName)}')" title="編輯">✎</button>
-              <button class="icon-btn del" onclick="deleteBatch('${esc(b.brand)}','${esc(b.batchName)}')" title="刪除">✕</button>
-            </div>
-          </td>
+          <td><div class="row-actions">
+            <button class="icon-btn" onclick="openEditBatchFor('${esc(b.brand)}','${esc(b.batchName)}')" title="編輯">✎</button>
+            <button class="icon-btn del" onclick="deleteBatch('${esc(b.brand)}','${esc(b.batchName)}')" title="刪除">✕</button>
+          </div></td>
         </tr>`;
       });
     }
   });
-
-  document.getElementById('table-body').innerHTML=html;
-  document.getElementById('loading-state').style.display='none';
-  document.getElementById('main-table').style.display='table';
-  document.getElementById('empty-state').classList.add('hidden');
+  document.getElementById('tracker-body').innerHTML=html;
+  document.getElementById('tracker-loading').style.display='none';
+  document.getElementById('tracker-table').style.display='table';
+  document.getElementById('tracker-empty').classList.add('hidden');
 }
 
-function render(){ renderStats(); renderTable(); }
-
-function toggleBrand(brand){
-  if(expandedBrands.has(brand)) expandedBrands.delete(brand);
-  else expandedBrands.add(brand);
-  renderTable();
-}
+function toggleBrand(b){ if(expandedBrands.has(b)) expandedBrands.delete(b); else expandedBrands.add(b); renderTracker(); }
 
 function setFilter(f){
   currentFilter=f;
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.dataset.filter===f));
-  renderStats(); renderTable();
+  document.querySelectorAll('.filter-btn[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter===f));
+  renderTracker();
 }
 
+// batch modal
 function openBatchModal(brand,batchName){
   const isEdit=!!(brand&&batchName);
   document.getElementById('batch-modal-title').textContent=isEdit?'編輯到貨批次':'新增到貨批次';
@@ -528,29 +600,16 @@ function openBatchModal(brand,batchName){
   document.getElementById('f-orig-batch').value=batchName||'';
   if(isEdit){
     const b=batches.find(x=>x.brand===brand&&x.batchName===batchName);
-    if(b){
-      document.getElementById('f-brand').value=b.brand;
-      document.getElementById('f-batch').value=b.batchName;
-      document.getElementById('f-status').value=b.status;
-      document.getElementById('f-shiptype').value=b.shipType||'';
-      document.getElementById('f-eta').value=b.eta;
-      document.getElementById('f-actual').value=b.actual;
-      document.getElementById('f-note').value=b.note;
-    }
+    if(b){ document.getElementById('f-brand').value=b.brand; document.getElementById('f-batch').value=b.batchName; document.getElementById('f-status').value=b.status; document.getElementById('f-shiptype').value=b.shipType||''; document.getElementById('f-eta').value=b.eta; document.getElementById('f-actual').value=b.actual; document.getElementById('f-note').value=b.note; }
   } else {
-    document.getElementById('f-brand').value='';
-    document.getElementById('f-batch').value=today;
-    document.getElementById('f-status').value='飛行中';
-    document.getElementById('f-shiptype').value='';
-    document.getElementById('f-eta').value='';
-    document.getElementById('f-actual').value='';
-    document.getElementById('f-note').value='';
+    document.getElementById('f-brand').value=''; document.getElementById('f-batch').value=today;
+    document.getElementById('f-status').value='飛行中'; document.getElementById('f-shiptype').value='';
+    document.getElementById('f-eta').value=''; document.getElementById('f-actual').value=''; document.getElementById('f-note').value='';
   }
   document.getElementById('batch-modal').classList.remove('hidden');
   setTimeout(()=>document.getElementById('f-brand').focus(),50);
 }
-
-function openEditBatchFor(brand,batchName){ openBatchModal(brand,batchName); }
+function openEditBatchFor(b,bn){ openBatchModal(b,bn); }
 function openEditBatch(){ closeModal('detail-modal'); openBatchModal(detailBrand,detailBatch); }
 
 async function saveBatch(){
@@ -564,16 +623,9 @@ async function saveBatch(){
   btn.disabled=true; btn.textContent='儲存中…';
   try {
     await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        action:isEdit?'updateBatch':'addBatch',
-        brand, batchName,
-        originalBrand:origBrand, originalBatchName:origBatch,
-        status:document.getElementById('f-status').value,
-        shipType:document.getElementById('f-shiptype').value,
-        eta:document.getElementById('f-eta').value,
-        actual:document.getElementById('f-actual').value,
-        note:document.getElementById('f-note').value.trim()
-      })
+      body:JSON.stringify({action:isEdit?'updateBatch':'addBatch',brand,batchName,originalBrand:origBrand,originalBatchName:origBatch,
+        status:document.getElementById('f-status').value,shipType:document.getElementById('f-shiptype').value,
+        eta:document.getElementById('f-eta').value,actual:document.getElementById('f-actual').value,note:document.getElementById('f-note').value.trim()})
     });
     closeModal('batch-modal');
     showToast(isEdit?'✓ 批次已更新':'✓ 已儲存至 Google Sheets');
@@ -586,29 +638,27 @@ async function saveBatch(){
 async function deleteBatch(brand,batchName){
   if(!confirm(`確定刪除「${brand} — ${batchName}」的全部資料（含品項）？`)) return;
   try {
-    await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({action:'deleteBatch',brand,batchName})
-    });
+    await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'deleteBatch',brand,batchName})});
     batches=batches.filter(b=>!(b.brand===brand&&b.batchName===batchName));
     items=items.filter(i=>!(i.brand===brand&&i.batchName===batchName));
-    render(); showToast('已刪除批次');
-  } catch(e){ showToast('⚠ 刪除失敗，請再試一次'); }
+    renderTracker(); showToast('已刪除批次');
+  } catch(e){ showToast('⚠ 刪除失敗'); }
 }
 
+// detail modal
 function openDetail(brand,batchName){
   detailBrand=brand; detailBatch=batchName; editingItemName=null;
   const b=batches.find(x=>x.brand===brand&&x.batchName===batchName); if(!b) return;
   document.getElementById('detail-title').textContent=brand+' — '+batchName;
   document.getElementById('detail-subtitle').textContent='點擊 ✎ 可編輯品項，✕ 可刪除';
-  const sc=statusKey[b.status]||'pending', overdue=isOverdue(b);
+  const sk=statusKey[b.status]||'pending', overdue=isOverdue(b);
   const shipHtml=b.shipType?`<span class="badge ${shipBadge[b.shipType]||''}">${shipIcon[b.shipType]||b.shipType}</span>`:' —';
   document.getElementById('detail-meta').innerHTML=`
-    <div class="meta-card"><div class="mlabel">出貨狀態</div><div class="mvalue"><span class="badge ${badgeClass[sc]}">${esc(b.status)}</span></div></div>
+    <div class="meta-card"><div class="mlabel">出貨狀態</div><div class="mvalue"><span class="badge ${badgeClass[sk]}">${esc(b.status)}</span></div></div>
     <div class="meta-card"><div class="mlabel">運輸方式</div><div class="mvalue">${shipHtml}</div></div>
     <div class="meta-card"><div class="mlabel">預計到貨</div><div class="mvalue${overdue?' date-cell overdue':''}">${b.eta||'—'}${overdue?' ⚠':''}</div></div>
     <div class="meta-card"><div class="mlabel">實際到貨</div><div class="mvalue">${b.actual||'—'}</div></div>`;
-  document.getElementById('new-item-name').value='';
-  document.getElementById('new-item-qty').value='';
+  document.getElementById('new-item-name').value=''; document.getElementById('new-item-qty').value='';
   renderItems();
   document.getElementById('detail-modal').classList.remove('hidden');
   setTimeout(()=>document.getElementById('new-item-name').focus(),50);
@@ -630,8 +680,7 @@ function renderItems(){
         <button class="iicon-btn" onclick="cancelItemEdit()" title="取消">✕</button>
       </td></tr>`;
     return `<tr>
-      <td>${esc(item.itemName)}</td>
-      <td>${esc(String(item.qty))}</td>
+      <td>${esc(item.itemName)}</td><td>${esc(String(item.qty))}</td>
       <td style="font-size:12px;color:var(--text2)">${item.timestamp?String(item.timestamp).slice(0,16):'—'}</td>
       <td style="white-space:nowrap">
         <button class="iicon-btn" onclick="startItemEdit('${esc(item.itemName)}')" title="編輯">✎</button>
@@ -650,13 +699,11 @@ async function saveItemEdit(orig){
   if(!newQty||Number(newQty)<=0){ showToast('⚠ 請輸入有效數量'); return; }
   try {
     await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({action:'updateItem',brand:detailBrand,batchName:detailBatch,originalItemName:orig,itemName:newName,qty:Number(newQty)})
-    });
+      body:JSON.stringify({action:'updateItem',brand:detailBrand,batchName:detailBatch,originalItemName:orig,itemName:newName,qty:Number(newQty)})});
     const idx=items.findIndex(i=>i.brand===detailBrand&&i.batchName===detailBatch&&i.itemName===orig);
     if(idx>-1){items[idx].itemName=newName;items[idx].qty=Number(newQty);}
-    editingItemName=null; renderItems(); renderTable();
-    showToast('✓ 品項已更新');
-  } catch(e){ showToast('⚠ 更新失敗，請再試一次'); }
+    editingItemName=null; renderItems(); renderTracker(); showToast('✓ 品項已更新');
+  } catch(e){ showToast('⚠ 更新失敗'); }
 }
 
 async function addItem(){
@@ -668,14 +715,11 @@ async function addItem(){
   btn.disabled=true; btn.textContent='新增中…';
   try {
     await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({action:'addItem',brand:detailBrand,batchName:detailBatch,itemName:name,qty:Number(qty)})
-    });
+      body:JSON.stringify({action:'addItem',brand:detailBrand,batchName:detailBatch,itemName:name,qty:Number(qty)})});
     items.push({brand:detailBrand,batchName:detailBatch,itemName:name,qty:Number(qty),timestamp:new Date().toLocaleString('zh-TW')});
-    document.getElementById('new-item-name').value='';
-    document.getElementById('new-item-qty').value='';
-    renderItems(); renderTable();
-    showToast('✓ 品項已新增');
-  } catch(e){ showToast('⚠ 新增失敗，請再試一次'); }
+    document.getElementById('new-item-name').value=''; document.getElementById('new-item-qty').value='';
+    renderItems(); renderTracker(); showToast('✓ 品項已新增');
+  } catch(e){ showToast('⚠ 新增失敗'); }
   btn.disabled=false; btn.textContent='＋ 新增品項';
 }
 
@@ -683,24 +727,151 @@ async function deleteItem(itemName){
   if(!confirm(`確定刪除「${itemName}」？`)) return;
   try {
     await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({action:'deleteItem',brand:detailBrand,batchName:detailBatch,itemName})
-    });
+      body:JSON.stringify({action:'deleteItem',brand:detailBrand,batchName:detailBatch,itemName})});
     items=items.filter(i=>!(i.brand===detailBrand&&i.batchName===detailBatch&&i.itemName===itemName));
-    renderItems(); renderTable();
-    showToast('已刪除品項');
-  } catch(e){ showToast('⚠ 刪除失敗，請再試一次'); }
+    renderItems(); renderTracker(); showToast('已刪除品項');
+  } catch(e){ showToast('⚠ 刪除失敗'); }
 }
 
+// ════════════════════════════
+// DEMAND TABLE
+// ════════════════════════════
+function renderDemandStats(){
+  document.getElementById('dstat-all').textContent=demands.length;
+  document.getElementById('dstat-urgent').textContent=demands.filter(d=>d.priority==='緊急').length;
+  document.getElementById('dstat-pending').textContent=demands.filter(d=>d.replyStatus==='待確認').length;
+  document.getElementById('dstat-replied').textContent=demands.filter(d=>d.replyStatus!=='待確認').length;
+  document.querySelectorAll('.stat-card[data-dfilter]').forEach(c=>c.classList.toggle('active-stat',c.dataset.dfilter===currentDemandFilter));
+}
+
+function renderDemand(){
+  renderDemandStats();
+  const q=document.getElementById('demand-search').value.toLowerCase();
+  const replyFilterMap={pending:'待確認',checking:'詢貨中',nostock:'無庫存'};
+  let rows=demands.filter(d=>{
+    if(currentDemandFilter==='urgent') return d.priority==='緊急'&&(!q||d.brand.toLowerCase().includes(q)||d.itemName.toLowerCase().includes(q));
+    if(currentDemandFilter==='normal') return d.priority==='一般'&&(!q||d.brand.toLowerCase().includes(q)||d.itemName.toLowerCase().includes(q));
+    if(replyFilterMap[currentDemandFilter]) return d.replyStatus===replyFilterMap[currentDemandFilter]&&(!q||d.brand.toLowerCase().includes(q)||d.itemName.toLowerCase().includes(q));
+    return !q||d.brand.toLowerCase().includes(q)||d.itemName.toLowerCase().includes(q);
+  });
+
+  const tbody=document.getElementById('demand-body');
+  if(rows.length===0){
+    tbody.innerHTML='';
+    document.getElementById('demand-table').style.display='none';
+    document.getElementById('demand-empty').classList.remove('hidden');
+    document.getElementById('demand-empty').textContent='目前沒有符合條件的需求。';
+    return;
+  }
+  document.getElementById('demand-table').style.display='table';
+  document.getElementById('demand-empty').classList.add('hidden');
+
+  tbody.innerHTML=rows.map(d=>{
+    const priClass=d.priority==='緊急'?'badge-urgent':'badge-normal';
+    const repClass=replyBadge[d.replyStatus]||'badge-reply-pending';
+    const tsShort=d.timestamp?String(d.timestamp).slice(0,16):'—';
+    return `<tr>
+      <td style="font-weight:500">${esc(d.brand)}</td>
+      <td>${esc(d.itemName)}</td>
+      <td>${d.qty||'—'}</td>
+      <td><span class="badge ${priClass}">${esc(d.priority)}</span></td>
+      <td class="note-cell" title="${esc(d.note)}">${d.note?esc(d.note):'<span style="opacity:0.4">無</span>'}</td>
+      <td>
+        <select class="reply-select" onchange="updateReplyStatus('${esc(d.timestamp)}',this.value)">
+          <option value="待確認"${d.replyStatus==='待確認'?' selected':''}>⏳ 待確認</option>
+          <option value="已確認"${d.replyStatus==='已確認'?' selected':''}>✓ 已確認</option>
+          <option value="詢貨中"${d.replyStatus==='詢貨中'?' selected':''}>🔍 詢貨中</option>
+          <option value="無庫存"${d.replyStatus==='無庫存'?' selected':''}>✕ 無庫存</option>
+        </select>
+      </td>
+      <td class="date-cell">${tsShort}</td>
+      <td><div class="demand-row-actions">
+        <button class="icon-btn" onclick="openEditDemand('${esc(d.timestamp)}')" title="編輯">✎</button>
+        <button class="icon-btn del" onclick="deleteDemand('${esc(d.timestamp)}')" title="刪除">✕</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function setDemandFilter(f){
+  currentDemandFilter=f;
+  document.querySelectorAll('.filter-btn[data-dfilter]').forEach(b=>b.classList.toggle('active',b.dataset.dfilter===f));
+  document.querySelectorAll('.stat-card[data-dfilter]').forEach(c=>c.classList.toggle('active-stat',c.dataset.dfilter===f));
+  renderDemand();
+}
+
+function openDemandModal(ts){
+  const isEdit=!!ts;
+  document.getElementById('demand-modal-title').textContent=isEdit?'編輯需求':'新增缺貨需求';
+  document.getElementById('demand-modal-sub').textContent=isEdit?'修改後儲存將更新 Google Sheets':'國外部會看到此需求並更新回覆狀態';
+  document.getElementById('df-timestamp').value=ts||'';
+  if(isEdit){
+    const d=demands.find(x=>x.timestamp===ts);
+    if(d){ document.getElementById('df-brand').value=d.brand; document.getElementById('df-item').value=d.itemName; document.getElementById('df-qty').value=d.qty; document.getElementById('df-priority').value=d.priority; document.getElementById('df-note').value=d.note; }
+  } else {
+    document.getElementById('df-brand').value=''; document.getElementById('df-item').value='';
+    document.getElementById('df-qty').value=''; document.getElementById('df-priority').value='一般'; document.getElementById('df-note').value='';
+  }
+  document.getElementById('demand-modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('df-brand').focus(),50);
+}
+
+function openEditDemand(ts){ openDemandModal(ts); }
+
+async function saveDemand(){
+  const brand=document.getElementById('df-brand').value.trim();
+  const itemName=document.getElementById('df-item').value.trim();
+  if(!brand||!itemName){ showToast('⚠ 請填入品牌和品項名稱'); return; }
+  const ts=document.getElementById('df-timestamp').value;
+  const isEdit=!!ts;
+  const btn=document.getElementById('btn-save-demand');
+  btn.disabled=true; btn.textContent='儲存中…';
+  try {
+    await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:isEdit?'updateDemand':'addDemand',brand,itemName,
+        qty:document.getElementById('df-qty').value,
+        priority:document.getElementById('df-priority').value,
+        note:document.getElementById('df-note').value.trim(),
+        timestamp:ts})
+    });
+    closeModal('demand-modal');
+    showToast(isEdit?'✓ 需求已更新':'✓ 需求已儲存');
+    setTimeout(()=>loadAll(),1800);
+  } catch(e){ showToast('⚠ 儲存失敗'); }
+  btn.disabled=false; btn.textContent='儲存並同步 →';
+}
+
+async function updateReplyStatus(ts,status){
+  try {
+    await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'updateDemandStatus',timestamp:ts,replyStatus:status})});
+    const idx=demands.findIndex(d=>d.timestamp===ts);
+    if(idx>-1) demands[idx].replyStatus=status;
+    renderDemandStats();
+    showToast('✓ 回覆狀態已更新');
+  } catch(e){ showToast('⚠ 更新失敗'); }
+}
+
+async function deleteDemand(ts){
+  if(!confirm('確定刪除此需求？')) return;
+  try {
+    await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'deleteDemand',timestamp:ts})});
+    demands=demands.filter(d=>d.timestamp!==ts);
+    renderDemand(); showToast('已刪除需求');
+  } catch(e){ showToast('⚠ 刪除失敗'); }
+}
+
+// ── Utils ──
 function closeModal(id){ document.getElementById(id).classList.add('hidden'); }
 function closeOnOverlay(e,id){ if(e.target===document.getElementById(id)) closeModal(id); }
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){ closeModal('batch-modal'); closeModal('detail-modal'); }
+  if(e.key==='Escape'){ closeModal('batch-modal'); closeModal('detail-modal'); closeModal('demand-modal'); }
   if(e.key==='Enter'&&editingItemName){
     const a=document.activeElement;
     if(a&&(a.id==='edit-item-name'||a.id==='edit-item-qty')) saveItemEdit(editingItemName);
   }
 });
-
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 loadAll();
