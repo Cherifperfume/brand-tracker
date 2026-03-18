@@ -361,6 +361,16 @@ let batches = [], items = [];
 let currentFilter = 'all';
 let expandedBrands = new Set();
 let detailBrand = null, detailBatch = null, editingItemName = null;
+function cleanDate(v) {
+  if (!v) return '';
+  const s = String(v);
+  // ISO format: 2026-03-17T16:00:00.000Z → 2026-03-18 (轉台灣時區)
+  if (s.includes('T')) {
+    const d = new Date(s);
+    if (!isNaN(d)) return d.toLocaleDateString('zh-TW', {timeZone:'Asia/Taipei'}).replace(/\//g, '-').replace(/(\d+)-(\d+)-(\d+)/, (_, y, m, d) => `${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`);
+  }
+  return s;
+}
 const today = new Date().toISOString().slice(0,10);
 
 const statusKey = {'飛行中':'transit','清關中':'customs','已到貨':'arrived','待出貨':'pending'};
@@ -393,10 +403,10 @@ async function loadAll(){
     ]);
     const bRows=await bRes.json(), iRows=await iRes.json();
     batches=(bRows.slice(1)||[]).filter(r=>r[0]).map(r=>({
-      brand:r[0]||'', batchName:r[1]||'', status:r[2]||'待出貨',
-      shipType:r[3]||'', eta:r[4]||'', actual:r[5]||'',
-      note:r[6]||'', timestamp:r[7]||''
-    }));
+  brand:r[0]||'', batchName:cleanDate(r[1])||'', status:r[2]||'待出貨',
+  shipType:r[3]||'', eta:cleanDate(r[4])||'', actual:cleanDate(r[5])||'',
+  note:r[6]||'', timestamp:r[7]||''
+}));
     items=(iRows.slice(1)||[]).filter(r=>r[0]).map(r=>({
       brand:r[0]||'', batchName:r[1]||'', itemName:r[2]||'',
       qty:r[3]||'', timestamp:r[4]||''
