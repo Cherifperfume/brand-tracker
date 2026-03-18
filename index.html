@@ -123,7 +123,6 @@
     .demand-row-actions { display:flex; gap:4px; opacity:0; transition:opacity 0.1s; }
     .demand-table tbody tr:hover .demand-row-actions { opacity:1; }
 
-    /* Reply status selector inline */
     .reply-select { padding:4px 8px; border-radius:var(--radius); border:0.5px solid var(--border2); font-size:12px; background:var(--bg); color:var(--text); font-family:inherit; cursor:pointer; }
     .reply-select:focus { outline:none; border-color:var(--info); }
 
@@ -175,7 +174,6 @@
     .form-row input:focus,.form-row select:focus,.form-row textarea:focus { outline:none; border-color:var(--info); box-shadow:0 0 0 3px rgba(24,95,165,0.1); }
     .form-row textarea { resize:vertical; min-height:72px; }
     .form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-    .form-grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
     .modal-footer { display:flex; gap:10px; margin-top:1.5rem; justify-content:flex-end; }
     .btn-cancel { padding:9px 18px; border-radius:var(--radius); border:0.5px solid var(--border2); background:transparent; font-size:13px; cursor:pointer; color:var(--text2); font-family:inherit; }
     .btn-cancel:hover { background:var(--bg2); }
@@ -213,7 +211,7 @@
       .page-wrap { border-radius:0; border:none; }
       .stats-row,.demand-stats { grid-template-columns:repeat(2,1fr); }
       .stat-card { border-bottom:0.5px solid var(--border); }
-      .form-grid-2,.form-grid-3 { grid-template-columns:1fr 1fr; }
+      .form-grid-2 { grid-template-columns:1fr 1fr; }
       .detail-meta { grid-template-columns:1fr 1fr; }
       .header,.toolbar { padding:1rem; }
       .tab-nav { padding:0 1rem; }
@@ -313,7 +311,6 @@
       </div>
     </div>
     <div class="demand-table-wrap">
-      <div class="loading-state" id="demand-loading" style="display:none">⏳ 載入中…</div>
       <table class="demand-table" id="demand-table">
         <thead><tr>
           <th style="width:14%">品牌</th>
@@ -468,8 +465,13 @@ function switchTab(tab){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   const btn=document.getElementById('btn-main-action');
-  if(tab==='tracker'){ btn.textContent='＋ 新增到貨批次'; btn.onclick=openBatchModal; }
-  else { btn.textContent='＋ 新增需求'; btn.onclick=openDemandModal; }
+  if(tab==='tracker'){
+    btn.textContent='＋ 新增到貨批次';
+    btn.onclick=()=>openBatchModal();
+  } else {
+    btn.textContent='＋ 新增需求';
+    btn.onclick=()=>openDemandModal(); // ← 修正：用 arrow function 避免 event 物件被誤傳
+  }
 }
 
 // ── Load all data ──
@@ -760,7 +762,7 @@ function renderDemand(){
     tbody.innerHTML='';
     document.getElementById('demand-table').style.display='none';
     document.getElementById('demand-empty').classList.remove('hidden');
-    document.getElementById('demand-empty').textContent='目前沒有符合條件的需求。';
+    document.getElementById('demand-empty').textContent=demands.length===0?'目前尚無需求，請點擊右上角「＋ 新增需求」開始輸入。':'目前沒有符合條件的需求。';
     return;
   }
   document.getElementById('demand-table').style.display='table';
@@ -768,7 +770,6 @@ function renderDemand(){
 
   tbody.innerHTML=rows.map(d=>{
     const priClass=d.priority==='緊急'?'badge-urgent':'badge-normal';
-    const repClass=replyBadge[d.replyStatus]||'badge-reply-pending';
     const tsShort=d.timestamp?String(d.timestamp).slice(0,16):'—';
     return `<tr>
       <td style="font-weight:500">${esc(d.brand)}</td>
@@ -800,8 +801,9 @@ function setDemandFilter(f){
   renderDemand();
 }
 
+// ← 修正：openDemandModal 只在有 ts 時才視為編輯
 function openDemandModal(ts){
-  const isEdit=!!ts;
+  const isEdit=typeof ts==='string'&&ts.length>0;
   document.getElementById('demand-modal-title').textContent=isEdit?'編輯需求':'新增缺貨需求';
   document.getElementById('demand-modal-sub').textContent=isEdit?'修改後儲存將更新 Google Sheets':'國外部會看到此需求並更新回覆狀態';
   document.getElementById('df-timestamp').value=ts||'';
@@ -823,7 +825,7 @@ async function saveDemand(){
   const itemName=document.getElementById('df-item').value.trim();
   if(!brand||!itemName){ showToast('⚠ 請填入品牌和品項名稱'); return; }
   const ts=document.getElementById('df-timestamp').value;
-  const isEdit=!!ts;
+  const isEdit=typeof ts==='string'&&ts.length>0;
   const btn=document.getElementById('btn-save-demand');
   btn.disabled=true; btn.textContent='儲存中…';
   try {
