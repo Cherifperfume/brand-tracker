@@ -8,26 +8,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #ffffff;
-      --bg2: #f7f7f5;
-      --bg3: #f0efeb;
-      --text: #1a1a18;
-      --text2: #6b6b67;
-      --text3: #9a9a96;
-      --border: rgba(0,0,0,0.1);
-      --border2: rgba(0,0,0,0.18);
-      --info-bg: #e6f1fb;
-      --info: #185fa5;
-      --success-bg: #eaf3de;
-      --success: #3b6d11;
-      --danger-bg: #fcebeb;
-      --danger: #a32d2d;
-      --warn-bg: #faeeda;
-      --warn: #854f0b;
-      --radius: 8px;
-      --radius-lg: 12px;
+      --bg: #ffffff; --bg2: #f7f7f5; --bg3: #f0efeb;
+      --text: #1a1a18; --text2: #6b6b67; --text3: #9a9a96;
+      --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.18);
+      --info-bg: #e6f1fb; --info: #185fa5;
+      --success-bg: #eaf3de; --success: #3b6d11;
+      --danger-bg: #fcebeb; --danger: #a32d2d;
+      --warn-bg: #faeeda; --warn: #854f0b;
+      --radius: 8px; --radius-lg: 12px;
     }
-
     @media (prefers-color-scheme: dark) {
       :root {
         --bg: #1c1c1a; --bg2: #242422; --bg3: #2c2c2a;
@@ -40,92 +29,64 @@
       }
     }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-      background: var(--bg3); color: var(--text);
-      min-height: 100vh; padding: 1.5rem;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; padding: 1.5rem; }
+    .page-wrap { max-width: 1100px; margin: 0 auto; background: var(--bg); border-radius: var(--radius-lg); border: 0.5px solid var(--border); overflow: hidden; }
 
-    .page-wrap {
-      max-width: 1100px; margin: 0 auto;
-      background: var(--bg); border-radius: var(--radius-lg);
-      border: 0.5px solid var(--border); overflow: hidden;
-    }
-
-    .header {
-      padding: 1.5rem 2rem 1.25rem;
-      border-bottom: 0.5px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-    }
+    .header { padding: 1.5rem 2rem 1.25rem; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
     .header-brand { display: flex; align-items: center; gap: 12px; }
-    .header-icon {
-      width: 36px; height: 36px; border-radius: var(--radius);
-      background: var(--bg2); border: 0.5px solid var(--border);
-      display: flex; align-items: center; justify-content: center; font-size: 18px;
-    }
+    .header-icon { width: 36px; height: 36px; border-radius: var(--radius); background: var(--bg2); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 18px; }
     .header-left h1 { font-size: 17px; font-weight: 500; }
     .header-left p { font-size: 12px; color: var(--text2); margin-top: 2px; }
     .header-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
-    .stats-row {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      border-bottom: 0.5px solid var(--border);
-    }
-    .stat-card { padding: 1.1rem 1.5rem; border-right: 0.5px solid var(--border); }
+    .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); border-bottom: 0.5px solid var(--border); }
+    .stat-card { padding: 1rem 1.25rem; border-right: 0.5px solid var(--border); cursor: pointer; transition: background 0.15s; }
     .stat-card:last-child { border-right: none; }
+    .stat-card:hover, .stat-card.active-stat { background: var(--bg2); }
     .stat-card .label { font-size: 11px; color: var(--text2); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.03em; }
-    .stat-card .value { font-size: 26px; font-weight: 500; }
+    .stat-card .value { font-size: 24px; font-weight: 500; }
     .stat-card.transit .value { color: var(--info); }
     .stat-card.customs .value { color: var(--warn); }
     .stat-card.arrived .value { color: var(--success); }
+    .stat-card.overdue-card .value { color: var(--danger); }
 
-    .toolbar {
-      padding: 1rem 2rem; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
-      border-bottom: 0.5px solid var(--border);
-    }
+    .toolbar { padding: 1rem 2rem; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; border-bottom: 0.5px solid var(--border); }
     .search-wrap { position: relative; flex: 1; min-width: 200px; }
-    .search-wrap input {
-      width: 100%; padding: 8px 12px 8px 34px;
-      border: 0.5px solid var(--border2); border-radius: var(--radius);
-      font-size: 13px; color: var(--text); background: var(--bg);
-    }
+    .search-wrap input { width: 100%; padding: 8px 12px 8px 34px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 13px; color: var(--text); background: var(--bg); }
     .search-wrap input:focus { outline: none; border-color: var(--info); box-shadow: 0 0 0 3px rgba(24,95,165,0.1); }
     .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); font-size: 14px; pointer-events: none; color: var(--text3); }
     .filter-btns { display: flex; gap: 6px; flex-wrap: wrap; }
-    .filter-btn {
-      padding: 7px 13px; border-radius: var(--radius);
-      border: 0.5px solid var(--border2); background: var(--bg);
-      font-size: 12px; cursor: pointer; color: var(--text2); font-family: inherit; transition: all 0.15s;
-    }
+    .filter-btn { padding: 7px 13px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg); font-size: 12px; cursor: pointer; color: var(--text2); font-family: inherit; transition: all 0.15s; }
     .filter-btn:hover { background: var(--bg2); }
     .filter-btn.active { background: var(--info-bg); border-color: var(--info); color: var(--info); }
+    .filter-btn.overdue-btn.active { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); }
 
-    .btn {
-      padding: 8px 15px; border-radius: var(--radius);
-      border: 0.5px solid var(--border2); background: var(--bg);
-      font-size: 13px; cursor: pointer; color: var(--text);
-      font-weight: 500; white-space: nowrap; font-family: inherit; transition: background 0.15s;
-    }
+    .btn { padding: 8px 15px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg); font-size: 13px; cursor: pointer; color: var(--text); font-weight: 500; white-space: nowrap; font-family: inherit; transition: background 0.15s; }
     .btn:hover { background: var(--bg2); }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
     .btn-primary:hover { opacity: 0.82; background: var(--text); }
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
 
     .table-wrap { overflow-x: auto; padding-bottom: 1.5rem; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     thead tr { border-bottom: 0.5px solid var(--border2); }
-    thead th { text-align: left; padding: 10px 1.5rem; font-size: 11px; font-weight: 500; color: var(--text2); white-space: nowrap; letter-spacing: 0.02em; }
+    thead th { text-align: left; padding: 10px 1.25rem; font-size: 11px; font-weight: 500; color: var(--text2); white-space: nowrap; letter-spacing: 0.02em; cursor: pointer; user-select: none; }
+    thead th:hover { color: var(--text); }
+    thead th.sorted { color: var(--info); }
+    .sort-arrow { margin-left: 3px; font-size: 10px; opacity: 0.5; }
+    thead th.sorted .sort-arrow { opacity: 1; }
     tbody tr { border-bottom: 0.5px solid var(--border); transition: background 0.1s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: var(--bg2); }
-    tbody td { padding: 11px 1.5rem; vertical-align: middle; }
+    tbody tr.overdue-row { background: rgba(163,45,45,0.04); }
+    tbody td { padding: 11px 1.25rem; vertical-align: middle; }
 
-    .brand-link {
-      font-weight: 500; font-size: 14px; color: var(--info);
-      cursor: pointer; text-decoration: none; border: none; background: none;
-      font-family: inherit; padding: 0;
-    }
+    .brand-link { font-weight: 500; font-size: 14px; color: var(--info); cursor: pointer; text-decoration: none; border: none; background: none; font-family: inherit; padding: 0; }
     .brand-link:hover { text-decoration: underline; }
+    .edit-brand-btn { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 12px; padding: 2px 5px; border-radius: var(--radius); margin-left: 4px; opacity: 0; transition: opacity 0.1s; }
+    tbody tr:hover .edit-brand-btn { opacity: 1; }
+    .edit-brand-btn:hover { background: var(--bg3); color: var(--text2); }
 
     .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap; }
     .badge-transit { background: var(--info-bg); color: var(--info); }
@@ -135,9 +96,8 @@
 
     .date-cell { color: var(--text2); font-size: 12px; }
     .date-cell.overdue { color: var(--danger); font-weight: 500; }
-    .note-cell { color: var(--text2); max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
-    .items-count { font-size: 12px; color: var(--text2); }
-    .items-count span { background: var(--bg2); border: 0.5px solid var(--border); padding: 2px 8px; border-radius: 20px; }
+    .note-cell { color: var(--text2); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+    .items-count span { background: var(--bg2); border: 0.5px solid var(--border); padding: 2px 8px; border-radius: 20px; font-size: 12px; color: var(--text2); }
 
     .empty-state { text-align: center; padding: 4rem 1rem; color: var(--text2); font-size: 14px; }
     .loading-state { text-align: center; padding: 3rem 1rem; color: var(--text2); font-size: 13px; }
@@ -148,26 +108,13 @@
     .sync-dot.error { background: var(--danger); }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
-    .page-footer {
-      padding: 1rem 2rem; border-top: 0.5px solid var(--border);
-      font-size: 11px; color: var(--text3);
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
-    }
+    .page-footer { padding: 1rem 2rem; border-top: 0.5px solid var(--border); font-size: 11px; color: var(--text3); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 
-    /* ── Modals ── */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 100; padding: 1rem;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
     .modal-overlay.hidden { display: none; }
-    .modal {
-      background: var(--bg); border-radius: var(--radius-lg);
-      border: 0.5px solid var(--border2); width: 100%; padding: 2rem;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.18); max-height: 90vh; overflow-y: auto;
-    }
+    .modal { background: var(--bg); border-radius: var(--radius-lg); border: 0.5px solid var(--border2); width: 100%; padding: 2rem; box-shadow: 0 8px 40px rgba(0,0,0,0.18); max-height: 90vh; overflow-y: auto; }
     .modal-sm { max-width: 500px; }
-    .modal-lg { max-width: 620px; }
+    .modal-lg { max-width: 640px; }
     .modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; gap: 12px; }
     .modal-header h2 { font-size: 16px; font-weight: 500; }
     .modal-header p { font-size: 12px; color: var(--text2); margin-top: 3px; }
@@ -176,87 +123,51 @@
 
     .form-row { margin-bottom: 16px; }
     .form-row label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 6px; font-weight: 500; }
-    .form-row input, .form-row select, .form-row textarea {
-      width: 100%; padding: 9px 12px;
-      border: 0.5px solid var(--border2); border-radius: var(--radius);
-      font-size: 13px; color: var(--text); background: var(--bg); font-family: inherit;
-    }
-    .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
-      outline: none; border-color: var(--info); box-shadow: 0 0 0 3px rgba(24,95,165,0.1);
-    }
+    .form-row input, .form-row select, .form-row textarea { width: 100%; padding: 9px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 13px; color: var(--text); background: var(--bg); font-family: inherit; }
+    .form-row input:focus, .form-row select:focus, .form-row textarea:focus { outline: none; border-color: var(--info); box-shadow: 0 0 0 3px rgba(24,95,165,0.1); }
     .form-row textarea { resize: vertical; min-height: 80px; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .modal-footer { display: flex; gap: 10px; margin-top: 1.5rem; justify-content: flex-end; }
-    .btn-cancel {
-      padding: 9px 18px; border-radius: var(--radius);
-      border: 0.5px solid var(--border2); background: transparent;
-      font-size: 13px; cursor: pointer; color: var(--text2); font-family: inherit;
-    }
+    .btn-cancel { padding: 9px 18px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: transparent; font-size: 13px; cursor: pointer; color: var(--text2); font-family: inherit; }
     .btn-cancel:hover { background: var(--bg2); }
 
-    /* Detail modal items section */
-    .detail-meta {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-      margin-bottom: 1.5rem;
-    }
+    .detail-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.25rem; }
     .meta-card { background: var(--bg2); border-radius: var(--radius); padding: 10px 12px; }
     .meta-card .mlabel { font-size: 11px; color: var(--text2); margin-bottom: 3px; }
     .meta-card .mvalue { font-size: 13px; font-weight: 500; }
-
-    .section-title {
-      font-size: 12px; font-weight: 500; color: var(--text2);
-      text-transform: uppercase; letter-spacing: 0.04em;
-      margin-bottom: 10px; margin-top: 1.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-    }
+    .section-title { font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; }
 
     .items-table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .items-table thead tr { border-bottom: 0.5px solid var(--border2); }
-    .items-table thead th { text-align: left; padding: 7px 10px; font-size: 11px; color: var(--text2); font-weight: 500; }
+    .items-table thead th { text-align: left; padding: 7px 8px; font-size: 11px; color: var(--text2); font-weight: 500; }
     .items-table tbody tr { border-bottom: 0.5px solid var(--border); }
     .items-table tbody tr:last-child { border-bottom: none; }
-    .items-table tbody td { padding: 9px 10px; }
-    .items-table .del-btn {
-      background: none; border: none; cursor: pointer;
-      color: var(--text3); font-size: 14px; padding: 2px 5px;
-      border-radius: var(--radius); font-family: inherit;
-    }
-    .items-table .del-btn:hover { background: var(--danger-bg); color: var(--danger); }
+    .items-table tbody td { padding: 8px 8px; vertical-align: middle; }
+    .items-table .edit-row input { padding: 5px 8px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 13px; color: var(--text); background: var(--bg); font-family: inherit; width: 100%; }
+    .items-table .edit-row input:focus { outline: none; border-color: var(--info); }
+    .icon-btn { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 13px; padding: 3px 6px; border-radius: var(--radius); }
+    .icon-btn:hover { background: var(--bg2); color: var(--text); }
+    .icon-btn.del:hover { background: var(--danger-bg); color: var(--danger); }
+    .icon-btn.save-btn:hover { background: var(--success-bg); color: var(--success); }
 
-    .add-item-row {
-      display: flex; gap: 8px; align-items: center; margin-top: 10px;
-    }
-    .add-item-row input {
-      padding: 7px 10px; border: 0.5px solid var(--border2);
-      border-radius: var(--radius); font-size: 13px; color: var(--text);
-      background: var(--bg); font-family: inherit;
-    }
+    .add-item-row { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+    .add-item-row input { padding: 7px 10px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 13px; color: var(--text); background: var(--bg); font-family: inherit; }
     .add-item-row input:focus { outline: none; border-color: var(--info); box-shadow: 0 0 0 3px rgba(24,95,165,0.1); }
     .add-item-row .inp-name { flex: 1; }
     .add-item-row .inp-qty { width: 80px; }
+    .no-items { text-align: center; padding: 1.5rem 1rem; color: var(--text3); font-size: 13px; }
 
-    .no-items { text-align: center; padding: 2rem 1rem; color: var(--text3); font-size: 13px; }
-
-    /* Toast */
-    .toast {
-      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      background: var(--text); color: var(--bg);
-      padding: 11px 22px; border-radius: var(--radius);
-      font-size: 13px; z-index: 300; opacity: 0;
-      transition: opacity 0.3s; pointer-events: none; white-space: nowrap;
-    }
+    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 11px 22px; border-radius: var(--radius); font-size: 13px; z-index: 300; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
     .toast.show { opacity: 1; }
 
     @media (max-width: 640px) {
       body { padding: 0; }
       .page-wrap { border-radius: 0; border: none; }
-      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .stats-row { grid-template-columns: repeat(3, 1fr); }
       .stat-card { border-bottom: 0.5px solid var(--border); }
-      .form-grid { grid-template-columns: 1fr; }
-      .detail-meta { grid-template-columns: 1fr 1fr; }
+      .form-grid, .detail-meta { grid-template-columns: 1fr 1fr; }
       .header, .toolbar { padding: 1.25rem; }
-      thead th, tbody td { padding-left: 1.25rem; padding-right: 1.25rem; }
-      .add-item-row { flex-wrap: wrap; }
+      thead th, tbody td { padding-left: 1rem; padding-right: 1rem; }
     }
   </style>
 </head>
@@ -282,10 +193,21 @@
   </div>
 
   <div class="stats-row">
-    <div class="stat-card"><div class="label">全部品牌</div><div class="value" id="stat-all">—</div></div>
-    <div class="stat-card transit"><div class="label">飛行中</div><div class="value" id="stat-transit">—</div></div>
-    <div class="stat-card customs"><div class="label">清關中</div><div class="value" id="stat-customs">—</div></div>
-    <div class="stat-card arrived"><div class="label">已到貨</div><div class="value" id="stat-arrived">—</div></div>
+    <div class="stat-card active-stat" onclick="setFilter('all')" data-filter="all">
+      <div class="label">全部品牌</div><div class="value" id="stat-all">—</div>
+    </div>
+    <div class="stat-card transit" onclick="setFilter('transit')" data-filter="transit">
+      <div class="label">飛行中</div><div class="value" id="stat-transit">—</div>
+    </div>
+    <div class="stat-card customs" onclick="setFilter('customs')" data-filter="customs">
+      <div class="label">清關中</div><div class="value" id="stat-customs">—</div>
+    </div>
+    <div class="stat-card arrived" onclick="setFilter('arrived')" data-filter="arrived">
+      <div class="label">已到貨</div><div class="value" id="stat-arrived">—</div>
+    </div>
+    <div class="stat-card overdue-card" onclick="setFilter('overdue')" data-filter="overdue">
+      <div class="label">⚠ 逾期未到</div><div class="value" id="stat-overdue">—</div>
+    </div>
   </div>
 
   <div class="toolbar">
@@ -299,6 +221,7 @@
       <button class="filter-btn" data-filter="customs" onclick="setFilter('customs')">⏳ 清關中</button>
       <button class="filter-btn" data-filter="arrived" onclick="setFilter('arrived')">✓ 已到貨</button>
       <button class="filter-btn" data-filter="pending" onclick="setFilter('pending')">— 待出貨</button>
+      <button class="filter-btn overdue-btn" data-filter="overdue" onclick="setFilter('overdue')">⚠ 逾期未到</button>
     </div>
   </div>
 
@@ -307,13 +230,12 @@
     <table id="main-table" style="display:none">
       <thead>
         <tr>
-          <th>品牌名稱</th>
-          <th>出貨狀態</th>
-          <th>預計到貨</th>
-          <th>實際到貨</th>
-          <th>品項數量</th>
+          <th onclick="sortBy('brand')">品牌名稱 <span class="sort-arrow" id="sa-brand">↕</span></th>
+          <th onclick="sortBy('status')">出貨狀態 <span class="sort-arrow" id="sa-status">↕</span></th>
+          <th onclick="sortBy('eta')" class="sorted">預計到貨 <span class="sort-arrow" id="sa-eta">↑</span></th>
+          <th onclick="sortBy('actual')">實際到貨 <span class="sort-arrow" id="sa-actual">↕</span></th>
+          <th>品項</th>
           <th>備註</th>
-          <th>輸入時間</th>
         </tr>
       </thead>
       <tbody id="table-body"></tbody>
@@ -327,16 +249,17 @@
   </div>
 </div>
 
-<!-- 新增品牌 Modal -->
-<div class="modal-overlay hidden" id="add-modal" onclick="closeOnOverlay(event,'add-modal')">
+<!-- 新增/編輯品牌 Modal -->
+<div class="modal-overlay hidden" id="brand-modal" onclick="closeOnOverlay(event,'brand-modal')">
   <div class="modal modal-sm">
     <div class="modal-header">
       <div>
-        <h2>新增品牌到貨資料</h2>
-        <p>填寫後儲存，品項可在詳細頁面新增</p>
+        <h2 id="brand-modal-title">新增品牌到貨資料</h2>
+        <p id="brand-modal-sub">填寫後儲存，品項可在詳細頁面新增</p>
       </div>
-      <button class="btn-close" onclick="closeModal('add-modal')">✕</button>
+      <button class="btn-close" onclick="closeModal('brand-modal')">✕</button>
     </div>
+    <input type="hidden" id="f-original-brand">
     <div class="form-row">
       <label>品牌名稱 *</label>
       <input type="text" id="f-brand" placeholder="例：Nike、ZARA、Uniqlo" autocomplete="off">
@@ -351,22 +274,16 @@
       </select>
     </div>
     <div class="form-grid">
-      <div class="form-row">
-        <label>預計到貨日期</label>
-        <input type="date" id="f-eta">
-      </div>
-      <div class="form-row">
-        <label>實際到貨日期</label>
-        <input type="date" id="f-actual">
-      </div>
+      <div class="form-row"><label>預計到貨日期</label><input type="date" id="f-eta"></div>
+      <div class="form-row"><label>實際到貨日期</label><input type="date" id="f-actual"></div>
     </div>
     <div class="form-row">
       <label>備註 / 說明</label>
       <textarea id="f-note" placeholder="航班號、聯絡人、特殊注意事項…"></textarea>
     </div>
     <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal('add-modal')">取消</button>
-      <button class="btn btn-primary" id="btn-save" onclick="saveBrand()">儲存並同步 →</button>
+      <button class="btn-cancel" onclick="closeModal('brand-modal')">取消</button>
+      <button class="btn btn-primary" id="btn-save-brand" onclick="saveBrand()">儲存並同步 →</button>
     </div>
   </div>
 </div>
@@ -379,29 +296,28 @@
         <h2 id="detail-title">品牌詳細資訊</h2>
         <p id="detail-subtitle" style="font-size:12px;color:var(--text2);margin-top:3px;"></p>
       </div>
-      <button class="btn-close" onclick="closeModal('detail-modal')">✕</button>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-sm" onclick="openEditModal()">✎ 編輯品牌</button>
+        <button class="btn-close" onclick="closeModal('detail-modal')">✕</button>
+      </div>
     </div>
-
     <div class="detail-meta" id="detail-meta"></div>
-
     <div class="section-title">
       <span>品項清單</span>
-      <span id="items-total" style="font-weight:400;font-size:12px;"></span>
+      <span id="items-total" style="font-weight:400;font-size:12px;color:var(--text2);"></span>
     </div>
-
     <table class="items-table">
       <thead>
         <tr>
-          <th style="width:50%">品項名稱／品號</th>
-          <th style="width:25%">數量</th>
-          <th style="width:20%">新增時間</th>
-          <th style="width:5%"></th>
+          <th style="width:44%">品項名稱／品號</th>
+          <th style="width:18%">數量</th>
+          <th style="width:26%">新增時間</th>
+          <th style="width:12%"></th>
         </tr>
       </thead>
       <tbody id="items-body"></tbody>
     </table>
     <div class="no-items hidden" id="no-items">尚未新增任何品項</div>
-
     <div class="add-item-row">
       <input type="text" class="inp-name" id="new-item-name" placeholder="輸入品項名稱或品號…">
       <input type="number" class="inp-qty" id="new-item-qty" placeholder="數量" min="1">
@@ -414,169 +330,183 @@
 
 <script>
 const API = 'https://script.google.com/macros/s/AKfycbwwa2ppeiw79NbJs2k71fCh4QeowJXKmsOrhRc87RR661chz-bhDz0eni0_m5UDeiFn/exec';
-let brands = [];
-let items = [];
+let brands = [], items = [];
 let currentFilter = 'all';
-let detailBrand = null;
+let sortCol = 'eta', sortDir = 1;
+let detailBrand = null, editingItemName = null;
 
-const statusKey = { '飛行中':'transit','清關中':'customs','已到貨':'arrived','待出貨':'pending' };
-const badgeClass = { transit:'badge-transit',customs:'badge-customs',arrived:'badge-arrived',pending:'badge-pending' };
-const filterToStatus = { transit:'飛行中',customs:'清關中',arrived:'已到貨',pending:'待出貨' };
+const statusKey = {'飛行中':'transit','清關中':'customs','已到貨':'arrived','待出貨':'pending'};
+const badgeClass = {transit:'badge-transit',customs:'badge-customs',arrived:'badge-arrived',pending:'badge-pending'};
+const filterToStatus = {transit:'飛行中',customs:'清關中',arrived:'已到貨',pending:'待出貨'};
+const today = new Date().toISOString().slice(0,10);
 
-function setSyncState(state, msg) {
-  document.getElementById('sync-dot').className = 'sync-dot' + (state==='syncing'?' syncing':state==='error'?' error':'');
-  document.getElementById('sync-text').textContent = msg;
+function setSyncState(s,m){
+  document.getElementById('sync-dot').className='sync-dot'+(s==='syncing'?' syncing':s==='error'?' error':'');
+  document.getElementById('sync-text').textContent=m;
+}
+function showToast(m){
+  const t=document.getElementById('toast');
+  t.textContent=m; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
-}
-
-async function loadAll() {
-  setSyncState('syncing', '同步中…');
-  document.getElementById('btn-refresh').disabled = true;
-  document.getElementById('loading-state').style.display = 'block';
-  document.getElementById('main-table').style.display = 'none';
+async function loadAll(){
+  setSyncState('syncing','同步中…');
+  document.getElementById('btn-refresh').disabled=true;
+  document.getElementById('loading-state').style.display='block';
+  document.getElementById('main-table').style.display='none';
   document.getElementById('empty-state').classList.add('hidden');
-
   try {
-    const [bRes, iRes] = await Promise.all([
-      fetch(API + '?t=' + Date.now()),
-      fetch(API + '?type=items&t=' + Date.now())
-    ]);
-    const bRows = await bRes.json();
-    const iRows = await iRes.json();
-
-    brands = (bRows.slice(1)||[]).filter(r=>r[1]).map(r=>({
-      timestamp: r[0]||'', brand: r[1]||'',
-      status: r[2]||'待出貨', eta: r[3]||'',
-      actual: r[4]||'', note: r[5]||''
-    }));
-
-    items = (iRows.slice(1)||[]).filter(r=>r[0]).map(r=>({
-      brand: r[0]||'', itemName: r[1]||'',
-      qty: r[2]||'', timestamp: r[3]||''
-    }));
-
-    const now = new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
-    setSyncState('ok','已同步 ' + now);
-    document.getElementById('last-updated').textContent = '最後更新：' + new Date().toLocaleString('zh-TW');
+    const [bRes,iRes]=await Promise.all([fetch(API+'?t='+Date.now()),fetch(API+'?type=items&t='+Date.now())]);
+    const bRows=await bRes.json(), iRows=await iRes.json();
+    brands=(bRows.slice(1)||[]).filter(r=>r[1]).map(r=>({timestamp:r[0]||'',brand:r[1]||'',status:r[2]||'待出貨',eta:r[3]||'',actual:r[4]||'',note:r[5]||''}));
+    items=(iRows.slice(1)||[]).filter(r=>r[0]).map(r=>({brand:r[0]||'',itemName:r[1]||'',qty:r[2]||'',timestamp:r[3]||''}));
+    const now=new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+    setSyncState('ok','已同步 '+now);
+    document.getElementById('last-updated').textContent='最後更新：'+new Date().toLocaleString('zh-TW');
     render();
-  } catch(e) {
+  } catch(e){
     setSyncState('error','連線失敗');
-    document.getElementById('loading-state').textContent = '⚠ 載入失敗，請按「重新整理」再試。';
+    document.getElementById('loading-state').textContent='⚠ 載入失敗，請按「重新整理」再試。';
     showToast('⚠ 無法連線至 Google Sheets');
   }
-  document.getElementById('btn-refresh').disabled = false;
+  document.getElementById('btn-refresh').disabled=false;
 }
 
-function renderStats() {
-  document.getElementById('stat-all').textContent = brands.length;
-  document.getElementById('stat-transit').textContent = brands.filter(d=>d.status==='飛行中').length;
-  document.getElementById('stat-customs').textContent = brands.filter(d=>d.status==='清關中').length;
-  document.getElementById('stat-arrived').textContent = brands.filter(d=>d.status==='已到貨').length;
+const isOverdue = d => d.eta && d.eta < today && d.status !== '已到貨';
+
+function renderStats(){
+  document.getElementById('stat-all').textContent=brands.length;
+  document.getElementById('stat-transit').textContent=brands.filter(d=>d.status==='飛行中').length;
+  document.getElementById('stat-customs').textContent=brands.filter(d=>d.status==='清關中').length;
+  document.getElementById('stat-arrived').textContent=brands.filter(d=>d.status==='已到貨').length;
+  document.getElementById('stat-overdue').textContent=brands.filter(isOverdue).length;
+  document.querySelectorAll('.stat-card').forEach(c=>c.classList.toggle('active-stat',c.dataset.filter===currentFilter));
 }
 
-function renderTable() {
-  const q = document.getElementById('search-input').value.toLowerCase();
-  let rows = brands.filter(d => {
-    const mf = currentFilter==='all' || d.status===(filterToStatus[currentFilter]||'');
-    const ms = !q || d.brand.toLowerCase().includes(q);
-    return mf && ms;
+function getSorted(arr){
+  return [...arr].sort((a,b)=>{
+    let va=a[sortCol]||'', vb=b[sortCol]||'';
+    if(!va&&!vb) return 0; if(!va) return 1; if(!vb) return -1;
+    return va<vb?-sortDir:va>vb?sortDir:0;
   });
+}
 
-  const today = new Date().toISOString().slice(0,10);
-  const tbody = document.getElementById('table-body');
-  tbody.innerHTML = rows.map(d => {
-    const sc = statusKey[d.status]||'pending';
-    const overdue = d.eta && d.eta < today && d.status !== '已到貨';
-    const itemCount = items.filter(i=>i.brand===d.brand).length;
-    return `<tr>
-      <td><button class="brand-link" onclick="openDetail('${esc(d.brand)}')">${esc(d.brand)}</button></td>
+function sortBy(col){
+  if(sortCol===col) sortDir*=-1; else {sortCol=col; sortDir=1;}
+  ['brand','status','eta','actual'].forEach(c=>{
+    const el=document.getElementById('sa-'+c), th=el&&el.closest('th');
+    if(!el) return;
+    el.textContent=c===sortCol?(sortDir===1?'↑':'↓'):'↕';
+    th&&th.classList.toggle('sorted',c===sortCol);
+  });
+  renderTable();
+}
+
+function renderTable(){
+  const q=document.getElementById('search-input').value.toLowerCase();
+  let rows=brands.filter(d=>{
+    if(currentFilter==='overdue') return isOverdue(d)&&(!q||d.brand.toLowerCase().includes(q));
+    const mf=currentFilter==='all'||d.status===(filterToStatus[currentFilter]||'');
+    return mf&&(!q||d.brand.toLowerCase().includes(q));
+  });
+  rows=getSorted(rows);
+  const tbody=document.getElementById('table-body');
+  tbody.innerHTML=rows.map(d=>{
+    const sc=statusKey[d.status]||'pending', overdue=isOverdue(d);
+    const cnt=items.filter(i=>i.brand===d.brand).length;
+    return `<tr class="${overdue?'overdue-row':''}">
+      <td>
+        <button class="brand-link" onclick="openDetail('${esc(d.brand)}')">${esc(d.brand)}</button>
+        <button class="edit-brand-btn" onclick="openEditModalFor('${esc(d.brand)}')" title="編輯">✎</button>
+      </td>
       <td><span class="badge ${badgeClass[sc]}">${esc(d.status)}</span></td>
       <td class="date-cell${overdue?' overdue':''}">${d.eta||'—'}${overdue?' ⚠':''}</td>
       <td class="date-cell">${d.actual||'—'}</td>
-      <td class="items-count"><span>${itemCount} 項</span></td>
+      <td class="items-count"><span>${cnt} 項</span></td>
       <td class="note-cell" title="${esc(d.note)}">${d.note?esc(d.note):'<span style="opacity:0.4">無</span>'}</td>
-      <td class="date-cell">${d.timestamp?String(d.timestamp).slice(0,16):'—'}</td>
     </tr>`;
   }).join('');
-
-  document.getElementById('loading-state').style.display = 'none';
-  if (rows.length===0) {
-    document.getElementById('main-table').style.display = 'none';
+  document.getElementById('loading-state').style.display='none';
+  if(rows.length===0){
+    document.getElementById('main-table').style.display='none';
     document.getElementById('empty-state').classList.remove('hidden');
+    document.getElementById('empty-state').textContent=currentFilter==='overdue'?'目前沒有逾期未到貨的品牌 🎉':'目前尚無資料，請點擊右上角「＋ 新增品牌」開始輸入。';
   } else {
-    document.getElementById('main-table').style.display = 'table';
+    document.getElementById('main-table').style.display='table';
     document.getElementById('empty-state').classList.add('hidden');
   }
 }
 
-function render() { renderStats(); renderTable(); }
+function render(){ renderStats(); renderTable(); }
 
-function setFilter(f) {
-  currentFilter = f;
+function setFilter(f){
+  currentFilter=f;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.dataset.filter===f));
-  renderTable();
+  renderStats(); renderTable();
 }
 
-// ── Add Brand Modal ──
-function openAddModal() {
+function openAddModal(){
+  document.getElementById('brand-modal-title').textContent='新增品牌到貨資料';
+  document.getElementById('brand-modal-sub').textContent='填寫後儲存，品項可在詳細頁面新增';
+  document.getElementById('f-original-brand').value='';
   ['f-brand','f-note'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-status').value='飛行中';
   document.getElementById('f-eta').value='';
   document.getElementById('f-actual').value='';
-  document.getElementById('add-modal').classList.remove('hidden');
+  document.getElementById('brand-modal').classList.remove('hidden');
   setTimeout(()=>document.getElementById('f-brand').focus(),50);
 }
 
-async function saveBrand() {
-  const brand = document.getElementById('f-brand').value.trim();
-  if (!brand) { showToast('⚠ 請輸入品牌名稱'); return; }
-  const btn = document.getElementById('btn-save');
+function openEditModalFor(brandName){
+  const b=brands.find(d=>d.brand===brandName); if(!b) return;
+  document.getElementById('brand-modal-title').textContent='編輯品牌資料';
+  document.getElementById('brand-modal-sub').textContent='修改後儲存將更新 Google Sheets 對應列';
+  document.getElementById('f-original-brand').value=brandName;
+  document.getElementById('f-brand').value=b.brand;
+  document.getElementById('f-status').value=b.status;
+  document.getElementById('f-eta').value=b.eta;
+  document.getElementById('f-actual').value=b.actual;
+  document.getElementById('f-note').value=b.note;
+  document.getElementById('brand-modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('f-brand').focus(),50);
+}
+
+function openEditModal(){ closeModal('detail-modal'); openEditModalFor(detailBrand); }
+
+async function saveBrand(){
+  const brand=document.getElementById('f-brand').value.trim();
+  if(!brand){showToast('⚠ 請輸入品牌名稱');return;}
+  const originalBrand=document.getElementById('f-original-brand').value;
+  const isEdit=!!originalBrand;
+  const btn=document.getElementById('btn-save-brand');
   btn.disabled=true; btn.textContent='儲存中…';
   try {
     await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({action:'add',brand,
+      body:JSON.stringify({action:isEdit?'updateBrand':'add',originalBrand,brand,
         status:document.getElementById('f-status').value,
         eta:document.getElementById('f-eta').value,
         actual:document.getElementById('f-actual').value,
         note:document.getElementById('f-note').value.trim()
       })
     });
-    closeModal('add-modal');
-    showToast('✓ 已儲存至 Google Sheets');
+    closeModal('brand-modal');
+    showToast(isEdit?'✓ 品牌資料已更新':'✓ 已儲存至 Google Sheets');
     setTimeout(()=>loadAll(),1800);
-  } catch(e) { showToast('⚠ 儲存失敗，請再試一次'); }
+  } catch(e){showToast('⚠ 儲存失敗，請再試一次');}
   btn.disabled=false; btn.textContent='儲存並同步 →';
 }
 
-// ── Detail Modal ──
-function openDetail(brandName) {
-  detailBrand = brandName;
-  const b = brands.find(d=>d.brand===brandName);
-  if (!b) return;
-
-  document.getElementById('detail-title').textContent = brandName;
-  document.getElementById('detail-subtitle').textContent = '點擊品項旁的 ✕ 可刪除，下方可新增品項';
-
-  const sc = statusKey[b.status]||'pending';
-  document.getElementById('detail-meta').innerHTML = `
-    <div class="meta-card">
-      <div class="mlabel">出貨狀態</div>
-      <div class="mvalue"><span class="badge ${badgeClass[sc]}">${esc(b.status)}</span></div>
-    </div>
-    <div class="meta-card">
-      <div class="mlabel">預計到貨</div>
-      <div class="mvalue">${b.eta||'—'}</div>
-    </div>
-    <div class="meta-card">
-      <div class="mlabel">實際到貨</div>
-      <div class="mvalue">${b.actual||'—'}</div>
-    </div>`;
-
+function openDetail(brandName){
+  detailBrand=brandName; editingItemName=null;
+  const b=brands.find(d=>d.brand===brandName); if(!b) return;
+  document.getElementById('detail-title').textContent=brandName;
+  document.getElementById('detail-subtitle').textContent='點擊 ✎ 可編輯品項，✕ 可刪除';
+  const sc=statusKey[b.status]||'pending', overdue=isOverdue(b);
+  document.getElementById('detail-meta').innerHTML=`
+    <div class="meta-card"><div class="mlabel">出貨狀態</div><div class="mvalue"><span class="badge ${badgeClass[sc]}">${esc(b.status)}</span></div></div>
+    <div class="meta-card"><div class="mlabel">預計到貨</div><div class="mvalue${overdue?' date-cell overdue':''}">${b.eta||'—'}${overdue?' ⚠':''}</div></div>
+    <div class="meta-card"><div class="mlabel">實際到貨</div><div class="mvalue">${b.actual||'—'}</div></div>`;
   document.getElementById('new-item-name').value='';
   document.getElementById('new-item-qty').value='';
   renderItems();
@@ -584,71 +514,94 @@ function openDetail(brandName) {
   setTimeout(()=>document.getElementById('new-item-name').focus(),50);
 }
 
-function renderItems() {
-  const brandItems = items.filter(i=>i.brand===detailBrand);
-  const tbody = document.getElementById('items-body');
-  const noItems = document.getElementById('no-items');
-
-  document.getElementById('items-total').textContent = brandItems.length ? `共 ${brandItems.length} 項` : '';
-
-  if (brandItems.length===0) {
-    tbody.innerHTML=''; noItems.classList.remove('hidden');
-  } else {
-    noItems.classList.add('hidden');
-    tbody.innerHTML = brandItems.map(i=>`<tr>
-      <td>${esc(i.itemName)}</td>
-      <td>${esc(String(i.qty))}</td>
-      <td style="font-size:12px;color:var(--text2)">${i.timestamp?String(i.timestamp).slice(0,16):'—'}</td>
-      <td><button class="del-btn" onclick="deleteItem('${esc(i.itemName)}')">✕</button></td>
-    </tr>`).join('');
-  }
+function renderItems(){
+  const bi=items.filter(i=>i.brand===detailBrand);
+  const tbody=document.getElementById('items-body');
+  document.getElementById('items-total').textContent=bi.length?`共 ${bi.length} 項`:'';
+  if(bi.length===0){tbody.innerHTML='';document.getElementById('no-items').classList.remove('hidden');return;}
+  document.getElementById('no-items').classList.add('hidden');
+  tbody.innerHTML=bi.map(item=>{
+    if(editingItemName===item.itemName) return `<tr class="edit-row">
+      <td><input type="text" id="edit-item-name" value="${esc(item.itemName)}"></td>
+      <td><input type="number" id="edit-item-qty" value="${esc(String(item.qty))}" min="1" style="width:70px"></td>
+      <td style="font-size:12px;color:var(--text2)">${item.timestamp?String(item.timestamp).slice(0,16):'—'}</td>
+      <td style="white-space:nowrap">
+        <button class="icon-btn save-btn" onclick="saveItemEdit('${esc(item.itemName)}')" title="儲存">✓</button>
+        <button class="icon-btn" onclick="cancelItemEdit()" title="取消">✕</button>
+      </td></tr>`;
+    return `<tr>
+      <td>${esc(item.itemName)}</td>
+      <td>${esc(String(item.qty))}</td>
+      <td style="font-size:12px;color:var(--text2)">${item.timestamp?String(item.timestamp).slice(0,16):'—'}</td>
+      <td style="white-space:nowrap">
+        <button class="icon-btn" onclick="startItemEdit('${esc(item.itemName)}')" title="編輯">✎</button>
+        <button class="icon-btn del" onclick="deleteItem('${esc(item.itemName)}')" title="刪除">✕</button>
+      </td></tr>`;
+  }).join('');
 }
 
-async function addItem() {
-  const name = document.getElementById('new-item-name').value.trim();
-  const qty = document.getElementById('new-item-qty').value.trim();
-  if (!name) { showToast('⚠ 請輸入品項名稱'); return; }
-  if (!qty || isNaN(qty) || Number(qty)<=0) { showToast('⚠ 請輸入有效數量'); return; }
+function startItemEdit(n){editingItemName=n;renderItems();setTimeout(()=>{const el=document.getElementById('edit-item-name');if(el)el.focus();},30);}
+function cancelItemEdit(){editingItemName=null;renderItems();}
 
-  const btn = document.getElementById('btn-add-item');
-  btn.disabled=true; btn.textContent='新增中…';
-
+async function saveItemEdit(orig){
+  const newName=(document.getElementById('edit-item-name').value||'').trim();
+  const newQty=document.getElementById('edit-item-qty').value;
+  if(!newName){showToast('⚠ 品項名稱不能為空');return;}
+  if(!newQty||Number(newQty)<=0){showToast('⚠ 請輸入有效數量');return;}
   try {
     await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({action:'addItem',brand:detailBrand,itemName:name,qty:Number(qty)})
+      body:JSON.stringify({action:'updateItem',brand:detailBrand,originalItemName:orig,itemName:newName,qty:Number(newQty)})
     });
-    // Optimistically update local
-    const now = new Date().toLocaleString('zh-TW');
-    items.push({brand:detailBrand,itemName:name,qty:Number(qty),timestamp:now});
+    const idx=items.findIndex(i=>i.brand===detailBrand&&i.itemName===orig);
+    if(idx>-1){items[idx].itemName=newName;items[idx].qty=Number(newQty);}
+    editingItemName=null; renderItems(); renderTable();
+    showToast('✓ 品項已更新');
+  } catch(e){showToast('⚠ 更新失敗，請再試一次');}
+}
+
+async function addItem(){
+  const name=document.getElementById('new-item-name').value.trim();
+  const qty=document.getElementById('new-item-qty').value.trim();
+  if(!name){showToast('⚠ 請輸入品項名稱');return;}
+  if(!qty||isNaN(qty)||Number(qty)<=0){showToast('⚠ 請輸入有效數量');return;}
+  const btn=document.getElementById('btn-add-item');
+  btn.disabled=true; btn.textContent='新增中…';
+  try {
+    await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'addItem',brand:detailBrand,itemName:name,qty:Number(qty)})
+    });
+    items.push({brand:detailBrand,itemName:name,qty:Number(qty),timestamp:new Date().toLocaleString('zh-TW')});
     document.getElementById('new-item-name').value='';
     document.getElementById('new-item-qty').value='';
-    renderItems();
-    renderTable();
+    renderItems(); renderTable();
     showToast('✓ 品項已新增');
-  } catch(e) { showToast('⚠ 新增失敗，請再試一次'); }
-
+  } catch(e){showToast('⚠ 新增失敗，請再試一次');}
   btn.disabled=false; btn.textContent='＋ 新增品項';
 }
 
-async function deleteItem(itemName) {
-  if (!confirm(`確定刪除「${itemName}」？`)) return;
+async function deleteItem(itemName){
+  if(!confirm(`確定刪除「${itemName}」？`)) return;
   try {
     await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({action:'deleteItem',brand:detailBrand,itemName})
+      body:JSON.stringify({action:'deleteItem',brand:detailBrand,itemName})
     });
-    items = items.filter(i=>!(i.brand===detailBrand && i.itemName===itemName));
-    renderItems();
-    renderTable();
+    items=items.filter(i=>!(i.brand===detailBrand&&i.itemName===itemName));
+    renderItems(); renderTable();
     showToast('已刪除品項');
-  } catch(e) { showToast('⚠ 刪除失敗，請再試一次'); }
+  } catch(e){showToast('⚠ 刪除失敗，請再試一次');}
 }
 
-function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-function closeOnOverlay(e,id) { if(e.target===document.getElementById(id)) closeModal(id); }
+function closeModal(id){document.getElementById(id).classList.add('hidden');}
+function closeOnOverlay(e,id){if(e.target===document.getElementById(id))closeModal(id);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeModal('brand-modal');closeModal('detail-modal');}
+  if(e.key==='Enter'&&editingItemName){
+    const a=document.activeElement;
+    if(a&&(a.id==='edit-item-name'||a.id==='edit-item-qty'))saveItemEdit(editingItemName);
+  }
+});
 
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal('add-modal'); closeModal('detail-modal'); } });
-
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 loadAll();
 </script>
